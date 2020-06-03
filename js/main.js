@@ -42,44 +42,12 @@ var TITLES = [
   'Бунгало с видом на центральный парк',
 ];
 
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
+var map = document.querySelector('.map');
+var pinsContainer = map.querySelector('.map__pins');
+var avatars = generateAvatars();
 var leaseAds = createLeaseAdArray();
-
-function createLeaseAd() {
-  var randomX = getRandomInteger(300, 900);
-  var randomY = getRandomInteger(130, 630);
-
-  var leaseAd = {
-    author: {
-      avatar: 'img/avatars/user0' + getRandomInteger(1, TOTAL) + '.png'
-    },
-    offer: {
-      title: getRandomArrayElement(TITLES),
-      address: randomX + ', ' + randomY,
-      price: getRandomInteger(1000, 1000000),
-      type: getRandomArrayElement(getObjectKeys(TYPES)),
-      rooms: getRandomInteger(1, 100),
-      guests: getRandomInteger(0, 3),
-      checkin: getRandomArrayElement(TIMES),
-      checkout: getRandomArrayElement(TIMES),
-      features: spliceArray(getShuffledArray(FEATURES)),
-      description: '',
-      photos: getShuffledArray(PHOTOS),
-    },
-    location: {
-      x: randomX,
-      y: randomY,
-    }
-  };
-  return leaseAd;
-}
-
-function createLeaseAdArray() {
-  var newArray = [];
-  for (var i = 0; i < TOTAL; i++) {
-    newArray.push(createLeaseAd());
-  }
-  return newArray;
-}
 
 function getRandomInteger(min, max) {
   return Math.floor(Math.random() * (max + 1 - min) + min);
@@ -118,10 +86,52 @@ function spliceArray(arr) {
   return copyArray(arr).splice(0, getRandomInteger(0, arr.length - 1));
 }
 
-var PIN_WIDTH = 50;
-var PIN_HEIGHT = 70;
-var map = document.querySelector('.map');
-var pinsContainer = map.querySelector('.map__pins');
+function generateAvatars() {
+  var newArray = [];
+  for (var i = 1; i <= TOTAL; i++) {
+    newArray.push(i);
+  };
+
+  return getShuffledArray(newArray);
+}
+
+function createLeaseAd() {
+  var randomX = getRandomInteger(300, 900);
+  var randomY = getRandomInteger(130, 630);
+
+  var leaseAd = {
+    author: {
+      avatar: 'img/avatars/user0' + avatars[0] + '.png'
+    },
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: randomX + ', ' + randomY,
+      price: getRandomInteger(1000, 1000000),
+      type: getRandomArrayElement(getObjectKeys(TYPES)),
+      rooms: getRandomInteger(1, 100),
+      guests: getRandomInteger(0, 3),
+      checkin: getRandomArrayElement(TIMES),
+      checkout: getRandomArrayElement(TIMES),
+      features: spliceArray(getShuffledArray(FEATURES)),
+      description: '',
+      photos: getShuffledArray(PHOTOS),
+    },
+    location: {
+      x: randomX,
+      y: randomY,
+    }
+  };
+  return leaseAd;
+}
+
+function createLeaseAdArray() {
+  var newArray = [];
+  for (var i = 0; i < TOTAL; i++) {
+    newArray.push(createLeaseAd());
+    avatars.shift();
+  }
+  return newArray;
+}
 
 function createPin(leaseAdElement) {
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -145,6 +155,11 @@ function renderPins(leaseAdsArray) {
   });
 
   pinsContainer.appendChild(fragment);
+}
+
+function callback(elem, fragment) {
+  var pinElement = createPin(elem);
+  fragment.appendChild(pinElement);
 }
 
 map.classList.remove('map--faded');
