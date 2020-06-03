@@ -90,7 +90,7 @@ function generateAvatars() {
   var newArray = [];
   for (var i = 1; i <= TOTAL; i++) {
     newArray.push(i);
-  };
+  }
 
   return getShuffledArray(newArray);
 }
@@ -155,11 +155,6 @@ function renderPins(leaseAdsArray) {
   });
 
   pinsContainer.appendChild(fragment);
-}
-
-function callback(elem, fragment) {
-  var pinElement = createPin(elem);
-  fragment.appendChild(pinElement);
 }
 
 map.classList.remove('map--faded');
