@@ -91,7 +91,6 @@ function generateAvatars() {
   for (var i = 1; i <= TOTAL; i++) {
     newArray.push(i);
   }
-
   return getShuffledArray(newArray);
 }
 
@@ -133,6 +132,10 @@ function createLeaseAdArray() {
   return newArray;
 }
 
+function appendPin(element, fragmentElement) {
+  return fragmentElement.appendChild(createPin(element));
+}
+
 function createPin(leaseAdElement) {
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElement = pinTemplate.cloneNode(true);
@@ -150,8 +153,7 @@ function renderPins(leaseAdsArray) {
   var fragment = document.createDocumentFragment();
 
   leaseAdsArray.forEach(function (leaseAd) {
-    var pinElement = createPin(leaseAd);
-    fragment.appendChild(pinElement);
+    appendPin(leaseAd, fragment);
   });
 
   pinsContainer.appendChild(fragment);
