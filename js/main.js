@@ -152,7 +152,7 @@ function createPin(leaseAdElement) {
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = leaseAdElement.location.x - PIN_WIDTH + 'px';
+  pinElement.style.left = leaseAdElement.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = leaseAdElement.location.y - PIN_HEIGHT + 'px';
 
   pinElement.querySelector('img').setAttribute('src', leaseAdElement.author.avatar);
