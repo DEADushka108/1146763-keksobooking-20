@@ -107,8 +107,8 @@ function generateAvatars() {
 }
 
 function createLeaseAd() {
-  var randomX = getRandomInteger(300, 900);
-  var randomY = getRandomInteger(130, 630);
+  var locationX = getRandomInteger(300, 900);
+  var locationY = getRandomInteger(130, 630);
 
   var leaseAd = {
     author: {
@@ -116,7 +116,7 @@ function createLeaseAd() {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: randomX + ', ' + randomY,
+      address: locationX + ', ' + locationY,
       price: getRandomInteger(1000, 1000000),
       type: getRandomArrayElement(getObjectKeys(TYPES)),
       rooms: getRandomInteger(1, 100),
@@ -128,8 +128,8 @@ function createLeaseAd() {
       photos: getShuffledArray(PHOTOS),
     },
     location: {
-      x: randomX,
-      y: randomY,
+      x: locationX,
+      y: locationY,
     }
   };
   return leaseAd;
