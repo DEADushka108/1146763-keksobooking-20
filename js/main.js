@@ -195,6 +195,22 @@ function clearChildren(parent) {
   parent.innerHTML = '';
 }
 
+function createPhotoElements(container, cardName) {
+  clearChildren(container);
+  cardName.offer.photos.forEach(function (src) {
+    var cardElement = createPhoto(src);
+    appendElement(cardElement, container);
+  });
+}
+
+function createFeatureElements(container, cardName) {
+  clearChildren(container);
+  cardName.offer.photos.forEach(function (name) {
+    var cardElement = createFeature(name);
+    appendElement(cardElement, container);
+  });
+}
+
 function createCard(leaseAd) {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardElement = cardTemplate.cloneNode(true);
@@ -204,23 +220,13 @@ function createCard(leaseAd) {
   cardElement.querySelector('.popup__avatar').setAttribute('src', leaseAd.author.avatar);
   cardElement.querySelector('.popup__title').textContent = leaseAd.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = leaseAd.offer.address;
-  cardElement.querySelector('.popup__text--price').innerHTML = leaseAd.offer.price + ' &#8381;' + ' /ночь';
+  cardElement.querySelector('.popup__text--price').innerHTML = leaseAd.offer.price + ' &#8381;/ночь';
   cardElement.querySelector('.popup__type').textContent = TYPES[leaseAd.offer.type];
   cardElement.querySelector('.popup__text--capacity').textContent = leaseAd.offer.rooms + ' комнаты для ' + leaseAd.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + leaseAd.offer.checkin + ', выезд до ' + leaseAd.offer.checkout;
   cardElement.querySelector('.popup__description').textContent = leaseAd.offer.description;
-
-  clearChildren(photosContainer);
-  leaseAd.offer.photos.forEach(function (src) {
-    var photoElement = createPhoto(src);
-    appendElement(photoElement, photosContainer);
-  });
-
-  clearChildren(featuresContainer);
-  leaseAd.offer.features.forEach(function (name) {
-    var featureElement = createFeature(name);
-    appendElement(featureElement, featuresContainer);
-  });
+  createPhotoElements(photosContainer, leaseAd);
+  createFeatureElements(featuresContainer, leaseAd);
 
   return cardElement;
 }
