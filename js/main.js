@@ -232,4 +232,3 @@ function showLeaseAd(node) {
 map.classList.remove('map--faded');
 renderPins(leaseAds);
 showLeaseAd(createCard(leaseAds[0]));
-
