@@ -239,3 +239,38 @@ map.classList.remove('map--faded');
 renderPins(leaseAds);
 showLeaseAd(createCard(leaseAds[0]));
 
+//module4//
+
+var PIN_TIP_HEIGHT = 22;
+var mainPin = document.querySelector('.map__pin--main');
+var addressField = document.querySelector('#address');
+var form = document.querySelector('.ad-form');
+var fieldsets = form.querySelectorAll('fieldset');
+
+// function setAddress() {
+//   var pinLocationX = Math.floor(mainPin.offsetLeft + mainPin.offsetWidth / 2);
+//   var pinLocationY = Math.floor(mainPin.offsetTop + mainPin.offsetHeight + PIN_TIP_HEIGHT);
+
+//   addressField.value = pinLocationX + ', ' + pinLocationY;
+// }
+
+function toggleForm() {
+  form.classList.toggle('ad-form--disabled');
+  fieldsets.forEach(function (fieldset) {
+    fieldset.disabled = !fieldset.disabled;
+  });
+}
+
+// function enabledForm() {
+//   form.classList.remove('ad-form--disabled');
+//   fieldsets.forEach(function(fieldset) {
+//     fieldset.disabled = false;
+//   });
+// } 
+
+// function disabledForm() {
+//   form.classList.add('ad-form--disabled');
+//   fieldsets.forEach(function(fieldset) {
+//     fieldset.disabled = true;
+//   });
+// } 
