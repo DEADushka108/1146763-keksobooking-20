@@ -82,7 +82,8 @@
   }
 
   function createLeaseAdArray(count) {
-    return new Array(count).fill('').map(createLeaseAd);
+    var arr = new Array(count).fill('').map(createLeaseAd);
+    return window.getShuffledArray(arr);
   }
 
   window.createLeaseAdArray = createLeaseAdArray;
