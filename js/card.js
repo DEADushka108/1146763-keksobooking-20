@@ -57,6 +57,31 @@
     container.before(node);
   }
 
+  function onCloseButtonClick() {
+    var cardElement = document.querySelector('.map__card');
+    var pinElement = document.querySelector('.map__pin--active');
+
+    pinElement.classList.remove('map__pin--active');
+
+    cardElement.remove();
+    document.removeEventListener('keydown', onEscButtonPress);
+  }
+
+  function onEscButtonPress(evt) {
+    if (evt.key === 'Escape') {
+      onCloseButtonClick();
+    }
+  }
+
+  function removeCard() {
+    var cardElement = document.querySelector('.map__card');
+
+    if (cardElement) {
+      cardElement.remove();
+    }
+  }
+
   window.createCard = createCard;
   window.renderCard = renderCard;
+  window.removeCard = removeCard;
 })();
