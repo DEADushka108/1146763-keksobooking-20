@@ -77,8 +77,8 @@ var typeSelect = form.querySelector('#type');
 var priceField = form.querySelector('#price');
 var checkinSelect = form.querySelector('#timein');
 var checkoutSelect = form.querySelector('#timeout');
-// var roomsSelect = form.querySelector('#room_number');
-// var capacitySelect = form.querySelector('#capacity');
+var roomsSelect = form.querySelector('#room_number');
+var capacitySelect = form.querySelector('#capacity');
 var resetButton = form.querySelector('.ad-form__reset');
 
 
@@ -368,33 +368,37 @@ function onCheckChange(evt) {
 //   }
 // }
 
-// function onRoomsChange(evt) {
-//   var selectedIndex = evt.target.selectedIndex;
-//   for (var i = 0; i < capacitySelect.options.length; i++) {
-//     capacitySelect.options[i].disabled = true;
-//   }
-//   switch (selectedIndex) {
-//     case (1): {
-//       capacitySelect.options[3].disabled = false;
-//       break;
-//     }
-//     case (2): {
-//       capacitySelect.options[3].disabled = false;
-//       capacitySelect.options[2].disabled = false;
-//       break;
-//     }
-//     case (3): {
-//       capacitySelect.options[1].disabled = false;
-//       capacitySelect.options[2].disabled = false;
-//       capacitySelect.options[3].disabled = false;
-//       break;
-//     }
-//     case (4): {
-//       capacitySelect.options[4].disabled = false;
-//       break;
-//     }
-//   }
-// }
+function onRoomsChange(evt) {
+  var selectedIndex = evt.target.selectedIndex;
+  for (var i = 0; i < capacitySelect.options.length; i++) {
+    capacitySelect.options[i].disabled = true;
+  }
+  switch (selectedIndex) {
+    case (0): {
+      capacitySelect.options[2].disabled = false;
+      capacitySelect.options[2].selected = true;
+      break;
+    }
+    case (1): {
+      capacitySelect.options[2].disabled = false;
+      capacitySelect.options[1].disabled = false;
+      capacitySelect.options[2].selected = true;
+      break;
+    }
+    case (2): {
+      capacitySelect.options[0].disabled = false;
+      capacitySelect.options[1].disabled = false;
+      capacitySelect.options[2].disabled = false;
+      capacitySelect.options[0].selected = true;
+      break;
+    }
+    case (3): {
+      capacitySelect.options[3].disabled = false;
+      capacitySelect.options[3].selected = true;
+      break;
+    }
+  }
+}
 
 function onResetButtonClick(evt) {
   evt.preventDefault();
@@ -406,5 +410,5 @@ initPage();
 typeSelect.addEventListener('change', onTypeChange);
 checkinSelect.addEventListener('change', onCheckChange);
 checkoutSelect.addEventListener('change', onCheckChange);
-// roomsSelect.addEventListener('change', onRoomsChange);
+roomsSelect.addEventListener('change', onRoomsChange);
 resetButton.addEventListener('click', onResetButtonClick);
