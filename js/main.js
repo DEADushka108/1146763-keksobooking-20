@@ -64,6 +64,9 @@ var DESCRIPTIONS = [
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var PIN_TIP_HEIGHT = 22;
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGHT = 100;
+
 var map = document.querySelector('.map');
 var pinsContainer = map.querySelector('.map__pins');
 var leaseAds = createLeaseAdArray(TOTAL);
@@ -80,6 +83,7 @@ var checkoutSelect = form.querySelector('#timeout');
 var roomsSelect = form.querySelector('#room_number');
 var capacitySelect = form.querySelector('#capacity');
 var resetButton = form.querySelector('.ad-form__reset');
+var titleInput = form.querySelector('#title');
 
 
 function getRandomInteger(min, max) {
@@ -400,6 +404,30 @@ function onRoomsChange(evt) {
   }
 }
 
+function onTitleInputInvalid() {
+  if (titleInput.validity.tooShort) {
+    titleInput.setCustomValidity('Заголовок должен состоять минимум из 30-ти символов');
+  } else if (titleInput.validity.tooLong) {
+    titleInput.setCustomValidity('Заголовок не должен превышать 100 символов');
+  } else if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity('Обязательное поле');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+}
+
+function onTitleInputHandler(evt) {
+  var valueLength = evt.target.value.length;
+
+  if (valueLength < MIN_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_TITLE_LENGHT) {
+    titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - MAX_TITLE_LENGHT) + ' симв.');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+}
+
 function onResetButtonClick(evt) {
   evt.preventDefault();
   form.reset();
@@ -412,3 +440,5 @@ checkinSelect.addEventListener('change', onCheckChange);
 checkoutSelect.addEventListener('change', onCheckChange);
 roomsSelect.addEventListener('change', onRoomsChange);
 resetButton.addEventListener('click', onResetButtonClick);
+titleInput.addEventListener('invalid', onTitleInputInvalid);
+titleInput.addEventListener('input', onTitleInputHandler);
