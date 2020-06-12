@@ -42,6 +42,18 @@ var TITLES = [
   'Бунгало с видом на центральный парк',
 ];
 
+var DESCRIPTIONS = [
+  'Великолепный вариан в центре Токио. Подходит как туристам, так и бизнесменам. Дом полностью укомплектован и имеет свежий ремонт.',
+  'Без интернета, регистрации и СМС. Расположена на краю парка',
+  'Уютное гнездышко для молодоженов',
+  'Подходит для всех кто любит тишину.',
+  'Находится в старинном центре города. Только для тех кто может себе позволить роскошь. Лакеев и прочих жокеев просим не беспокоить.',
+  'Минимализм во всем. Для самых не требовательных.',
+  'У нас тут все ништяк. Ларек за углом. Шава 24 часа. Приезжайте! Интернетов нет!',
+  'Тут красиво, светло и уютно. Кофе и печеньки бесплатно.',
+  'Квартира на первом этаже. Соседи тихие. Для всех, кто терпеть не может шума и суеты.',
+];
+
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var map = document.querySelector('.map');
@@ -91,13 +103,12 @@ function generateAvatars() {
   for (var i = 1; i <= TOTAL; i++) {
     newArray.push(i);
   }
-
   return getShuffledArray(newArray);
 }
 
 function createLeaseAd() {
-  var randomX = getRandomInteger(300, 900);
-  var randomY = getRandomInteger(130, 630);
+  var locationX = getRandomInteger(300, 900);
+  var locationY = getRandomInteger(130, 630);
 
   var leaseAd = {
     author: {
@@ -105,7 +116,7 @@ function createLeaseAd() {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: randomX + ', ' + randomY,
+      address: locationX + ', ' + locationY,
       price: getRandomInteger(1000, 1000000),
       type: getRandomArrayElement(getObjectKeys(TYPES)),
       rooms: getRandomInteger(1, 100),
@@ -113,12 +124,12 @@ function createLeaseAd() {
       checkin: getRandomArrayElement(TIMES),
       checkout: getRandomArrayElement(TIMES),
       features: spliceArray(getShuffledArray(FEATURES)),
-      description: '',
+      description: getRandomArrayElement(DESCRIPTIONS),
       photos: getShuffledArray(PHOTOS),
     },
     location: {
-      x: randomX,
-      y: randomY,
+      x: locationX,
+      y: locationY,
     }
   };
   return leaseAd;
@@ -133,11 +144,15 @@ function createLeaseAdArray() {
   return newArray;
 }
 
+function appendPin(element, fragmentElement) {
+  return fragmentElement.appendChild(createPin(element));
+}
+
 function createPin(leaseAdElement) {
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElement = pinTemplate.cloneNode(true);
 
-  pinElement.style.left = leaseAdElement.location.x - PIN_WIDTH + 'px';
+  pinElement.style.left = leaseAdElement.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = leaseAdElement.location.y - PIN_HEIGHT + 'px';
 
   pinElement.querySelector('img').setAttribute('src', leaseAdElement.author.avatar);
@@ -149,9 +164,8 @@ function createPin(leaseAdElement) {
 function renderPins(leaseAdsArray) {
   var fragment = document.createDocumentFragment();
 
-  leaseAdsArray.forEach(function(leaseAd) {
-    var pinElement = createPin(leaseAd);
-    fragment.appendChild(pinElement);
+  leaseAdsArray.forEach(function (leaseAd) {
+    appendPin(leaseAd, fragment);
   });
 
   pinsContainer.appendChild(fragment);
