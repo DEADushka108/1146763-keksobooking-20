@@ -149,7 +149,7 @@ function createPin(leaseAdElement) {
 function renderPins(leaseAdsArray) {
   var fragment = document.createDocumentFragment();
 
-  leaseAdsArray.forEach(function (leaseAd) {
+  leaseAdsArray.forEach(function(leaseAd) {
     var pinElement = createPin(leaseAd);
     fragment.appendChild(pinElement);
   });
