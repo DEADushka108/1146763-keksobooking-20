@@ -55,6 +55,6 @@
     getShuffledArray: getShuffledArray,
     clearChildren: clearChildren,
     appendElement: appendElement
-  }
+  };
 
 })();

@@ -89,5 +89,5 @@
   window.mock = {
     createAds: createLeaseAdArray,
     Types: TYPES
-  }
+  };
 })();

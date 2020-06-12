@@ -18,8 +18,8 @@
     pinElement.querySelector('img').setAttribute('alt', data.offer.title);
 
     pinElement.addEventListener('click', function (evt) {
-    onPinClick(evt, data);
-  });
+      onPinClick(evt, data);
+    });
 
     return pinElement;
   }
