@@ -46,12 +46,15 @@
     return fragmentElement.appendChild(element);
   }
 
-  window.getRandomInteger = getRandomInteger;
-  window.getRandomArrayElement = getRandomArrayElement;
-  window.spliceArray = spliceArray;
-  window.copyArray = copyArray;
-  window.getObjectKeys = getObjectKeys;
-  window.getShuffledArray = getShuffledArray;
-  window.clearChildren = clearChildren;
-  window.appendElement = appendElement;
+  window.utils = {
+    getRandomInteger: getRandomInteger,
+    getRandomArrayElement: getRandomArrayElement,
+    spliceArray: spliceArray,
+    copyArray: copyArray,
+    getObjectKeys: getObjectKeys,
+    getShuffledArray: getShuffledArray,
+    clearChildren: clearChildren,
+    appendElement: appendElement
+  }
+
 })();

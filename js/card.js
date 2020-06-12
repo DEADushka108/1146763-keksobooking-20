@@ -18,18 +18,18 @@
   }
 
   function createPhotoElements(container, cardName) {
-    window.clearChildren(container);
+    window.utils.clearChildren(container);
     cardName.offer.photos.forEach(function (src) {
       var cardElement = createPhoto(src);
-      window.appendElement(cardElement, container);
+      window.utils.appendElement(cardElement, container);
     });
   }
 
   function createFeatureElements(container, cardName) {
-    window.clearChildren(container);
+    window.utils.clearChildren(container);
     cardName.offer.features.forEach(function (name) {
       var cardElement = createFeature(name);
-      window.appendElement(cardElement, container);
+      window.utils.appendElement(cardElement, container);
     });
   }
 
@@ -43,18 +43,18 @@
     cardElement.querySelector('.popup__title').textContent = leaseAd.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = leaseAd.offer.address;
     cardElement.querySelector('.popup__text--price').innerHTML = leaseAd.offer.price + ' &#8381;/ночь';
-    cardElement.querySelector('.popup__type').textContent = window.Types[leaseAd.offer.type];
+    cardElement.querySelector('.popup__type').textContent = window.mock.Types[leaseAd.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent = leaseAd.offer.rooms + ' комнаты для ' + leaseAd.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + leaseAd.offer.checkin + ', выезд до ' + leaseAd.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = leaseAd.offer.description;
     createPhotoElements(photosContainer, leaseAd);
     createFeatureElements(featuresContainer, leaseAd);
 
-    return cardElement;
-  }
+    cardElement.addEventListener('click', onCloseButtonClick);
 
-  function renderCard(node, container) {
-    container.before(node);
+    document.addEventListener('keydown', onEscButtonPress);
+
+    return cardElement;
   }
 
   function onCloseButtonClick() {
@@ -81,7 +81,8 @@
     }
   }
 
-  window.createCard = createCard;
-  window.renderCard = renderCard;
-  window.removeCard = removeCard;
+  window.card = {
+    create: createCard,
+    remove: removeCard
+  };
 })();

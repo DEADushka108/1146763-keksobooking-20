@@ -53,25 +53,25 @@
   ];
 
   function createLeaseAd(leaseAd, index) {
-    var locationX = window.getRandomInteger(300, 900);
-    var locationY = window.getRandomInteger(130, 630);
+    var locationX = window.utils.getRandomInteger(300, 900);
+    var locationY = window.utils.getRandomInteger(130, 630);
 
     leaseAd = {
       author: {
         avatar: 'img/avatars/user0' + (index + 1) + '.png'
       },
       offer: {
-        title: window.getRandomArrayElement(TITLES),
+        title: window.utils.getRandomArrayElement(TITLES),
         address: locationX + ', ' + locationY,
-        price: window.getRandomInteger(1000, 1000000),
-        type: window.getRandomArrayElement(window.getObjectKeys(TYPES)),
-        rooms: window.getRandomInteger(1, 100),
-        guests: window.getRandomInteger(0, 3),
-        checkin: window.getRandomArrayElement(TIMES),
-        checkout: window.getRandomArrayElement(TIMES),
-        features: window.spliceArray(window.getShuffledArray(FEATURES)),
-        description: window.getRandomArrayElement(DESCRIPTIONS),
-        photos: window.getShuffledArray(PHOTOS),
+        price: window.utils.getRandomInteger(1000, 1000000),
+        type: window.utils.getRandomArrayElement(window.utils.getObjectKeys(TYPES)),
+        rooms: window.utils.getRandomInteger(1, 100),
+        guests: window.utils.getRandomInteger(0, 3),
+        checkin: window.utils.getRandomArrayElement(TIMES),
+        checkout: window.utils.getRandomArrayElement(TIMES),
+        features: window.utils.spliceArray(window.utils.getShuffledArray(FEATURES)),
+        description: window.utils.getRandomArrayElement(DESCRIPTIONS),
+        photos: window.utils.getShuffledArray(PHOTOS),
       },
       location: {
         x: locationX,
@@ -83,9 +83,11 @@
 
   function createLeaseAdArray(count) {
     var arr = new Array(count).fill('').map(createLeaseAd);
-    return window.getShuffledArray(arr);
+    return window.utils.getShuffledArray(arr);
   }
 
-  window.createLeaseAdArray = createLeaseAdArray;
-  window.Types = TYPES;
+  window.mock = {
+    createAds: createLeaseAdArray,
+    Types: TYPES
+  }
 })();
