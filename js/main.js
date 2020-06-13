@@ -1,6 +1,8 @@
 'use strict';
 (function () {
   var TOTAL = 8;
+  var MAIN_PIN_DEAFULT_TOP = '375px';
+  var MAIN_PIN_DEAFULT_LEFT = '570px';
 
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
@@ -36,8 +38,8 @@
   function clearPage() {
     window.card.remove();
     window.pin.remove();
-    mainPin.style.left = '570px';
-    mainPin.style.top = '375px';
+    mainPin.style.left = MAIN_PIN_DEAFULT_LEFT;
+    mainPin.style.top = MAIN_PIN_DEAFULT_TOP;
     initPage();
   }
 
