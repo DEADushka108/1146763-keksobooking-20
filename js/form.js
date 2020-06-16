@@ -42,52 +42,66 @@
     }
   }
 
+  function onRoomsChange(evt) {
+    var selectedIndex = evt.target.selectedIndex;
+    capacitySelect.options[selectedIndex].selected = true;
+    for (var i = 0; i < capacitySelect.options.length; i++) {
+      capacitySelect.options[i].disabled = true;
+      if (selectedIndex === capacitySelect.options.length - 1) {
+        capacitySelect.options[selectedIndex].disabled = false;
+      } else if (selectedIndex >= i) {
+        capacitySelect.options[i].disabled = false;
+      }
+    }
+  }
+
   // function onRoomsChange(evt) {
   //   var selectedIndex = evt.target.selectedIndex;
-  //   capacitySelect.options[selectedIndex].selected = true;
+  //   var selectedRooms = evt.target.value;
+  //   capacitySelect.options[capacitySelect.options.length - 2].selected = true;
   //   for (var i = 0; i < capacitySelect.options.length; i++) {
   //     capacitySelect.options[i].disabled = true;
-  //     if (selectedIndex === capacitySelect.options.length - 1) {
-  //       capacitySelect.options[selectedIndex].disabled = false;
+  //     if (selectedRooms >= capacitySelect.options[i].value) {
+  //       capacitySelect.options[i].disabled = false;
   //     } else if (selectedIndex >= i) {
   //       capacitySelect.options[i].disabled = false;
   //     }
   //   }
   // }
 
-  function onRoomsChange(evt) {
-    var selectedIndex = evt.target.selectedIndex;
-    for (var i = 0; i < capacitySelect.options.length; i++) {
-      capacitySelect.options[i].disabled = true;
-    }
-    switch (selectedIndex) {
-      case (0): {
-        capacitySelect.options[2].disabled = false;
-        capacitySelect.options[2].selected = true;
-        break;
-      }
-      case (1): {
-        capacitySelect.options[2].disabled = false;
-        capacitySelect.options[1].disabled = false;
-        capacitySelect.options[2].selected = true;
-        break;
-      }
-      case (2): {
-        capacitySelect.options[0].disabled = false;
-        capacitySelect.options[1].disabled = false;
-        capacitySelect.options[2].disabled = false;
-        capacitySelect.options[0].selected = true;
-        break;
-      }
-      case (3): {
-        capacitySelect.options[3].disabled = false;
-        capacitySelect.options[3].selected = true;
-        break;
-      }
-    }
-  }
+  // function onRoomsChange(evt) {
+  //   var selectedIndex = evt.target.selectedIndex;
+  //   for (var i = 0; i < capacitySelect.options.length; i++) {
+  //     capacitySelect.options[i].disabled = true;
+  //   }
+  //   switch (selectedIndex) {
+  //     case (0): {
+  //       capacitySelect.options[2].disabled = false;
+  //       capacitySelect.options[2].selected = true;
+  //       break;
+  //     }
+  //     case (1): {
+  //       capacitySelect.options[2].disabled = false;
+  //       capacitySelect.options[1].disabled = false;
+  //       capacitySelect.options[2].selected = true;
+  //       break;
+  //     }
+  //     case (2): {
+  //       capacitySelect.options[0].disabled = false;
+  //       capacitySelect.options[1].disabled = false;
+  //       capacitySelect.options[2].disabled = false;
+  //       capacitySelect.options[0].selected = true;
+  //       break;
+  //     }
+  //     case (3): {
+  //       capacitySelect.options[3].disabled = false;
+  //       capacitySelect.options[3].selected = true;
+  //       break;
+  //     }
+  //   }
+  // }
 
-  function onTitleInputHandler(evt) {
+  function titleInputHandler(evt) {
     var valueLength = evt.target.value.length;
 
     if (valueLength < MIN_TITLE_LENGTH) {
@@ -103,7 +117,7 @@
   checkinSelect.addEventListener('change', onCheckChange);
   checkoutSelect.addEventListener('change', onCheckChange);
   roomsSelect.addEventListener('change', onRoomsChange);
-  titleInput.addEventListener('input', onTitleInputHandler);
+  titleInput.addEventListener('input', titleInputHandler);
 
   window.form = {
     toggle: toggleForm,
