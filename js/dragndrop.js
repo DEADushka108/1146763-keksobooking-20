@@ -74,6 +74,7 @@
   }
 
   window.dragndrop = {
-    movePin: onMouseDownMovePin
+    movePin: onMouseDownMovePin,
+    setAddress: setAddress
   };
 })();

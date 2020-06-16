@@ -6,6 +6,7 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onSuccess(xhr.response);
+        console.log(xhr.response);
       } else {
         onError(xhr.status + ' ' + xhr.statusText);
       }
@@ -18,6 +19,8 @@
     xhr.addEventListener('timeout', function () {
       onError('таймаут');
     });
+
+    xhr.timeout = 1000;
 
     xhr.open('GET', url);
 
