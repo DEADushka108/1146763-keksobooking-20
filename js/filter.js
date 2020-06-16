@@ -14,6 +14,8 @@
   var guestsSelect = filters.querySelector('#housing-guests');
   var featuresList = filters.querySelector('#housing-features');
 
+
+  console.log(filters.childNodes);
   function toggleFilters() {
     filters.reset();
     filters.childNodes.forEach(function (filter) {

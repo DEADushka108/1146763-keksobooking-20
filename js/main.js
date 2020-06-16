@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-  var TOTAL = 5;
-  var DATA_URL = 'https://javascript.pages.academy/keksobooking';
+  var TOTAL = 8;
+  var DATA_URL = 'https://javascript.pages.academy/keksobooking/data';
   var MAIN_PIN_DEAFULT_TOP = '375px';
   var MAIN_PIN_DEAFULT_LEFT = '570px';
 
@@ -42,13 +42,13 @@
   function setPageActive() {
     map.classList.remove('map--faded');
     window.form.toggle();
-    toggleFilters();
+    window.filter.toggle();
   }
 
   function setPageDisactive() {
     map.classList.add('map--faded');
     window.form.toggle();
-    toggleFilters();
+    window.filter.toggle();
   }
 
   function onMainPinMouseupActivatePage() {
@@ -79,7 +79,6 @@
 
   function onResetButtonClick(evt) {
     evt.preventDefault();
-    window.filter.toggle();
     form.reset();
     clearPage();
     window.leaseAds = [];
