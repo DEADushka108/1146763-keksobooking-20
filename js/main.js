@@ -1,40 +1,38 @@
 'use strict';
 (function () {
-  var TOTAL = 10;
+  var MAX_ADS = 5;
   var DATA_URL = 'https://javascript.pages.academy/keksobooking/data';
   var MAIN_PIN_DEAFULT_TOP = '375px';
   var MAIN_PIN_DEAFULT_LEFT = '570px';
 
   var getData = window.data.get;
-  var toggleFilters = window.filter.toggle;
+  var form = window.form.element;
+  var toggleForm = window.form.toggle;
+  var toggleFilter = window.filter.toggle;
+  var renderPins = window.pin.render;
+  var removePins = window.pin.remove;
+  var removeCard = window.card.remove;
+  var onMouseDownMovePin = window.dragndrop.movePin;
+  var setAddress = window.dragndrop.setAddress;
+  var appendElement = window.utils.appendElement;
 
   var map = document.querySelector('.map');
   var mainContainer = document.querySelector('main');
   var mainPin = document.querySelector('.map__pin--main');
-  var form = window.form.element;
-  // var leaseAds = window.mock.createAds(TOTAL);
   var resetButton = form.querySelector('.ad-form__reset');
 
-  window.leaseAds = [];
+  window.adverts = [];
 
   function onError(message) {
-    var errorTemplate = document.querySelector('#error').textContent.querySelector('.error');
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
-    errorElement.querySelector('.error__masage').textContent = message;
+    errorElement.querySelector('.error__massage').textContent = message;
     errorElement.querySelector('.error__button').addEventListener('click', function () {
       errorElement.remove();
       getData(DATA_URL, onSuccess, onError);
     });
 
-    window.appendElement(errorElement, mainContainer);
-  }
-
-  function onSuccess(data) {
-    window.leaseAds = data;
-    window.pin.render(window.leaseAds.slice(0, TOTAL));
-
-    window.form.toggle();
-    window.filter.toggle();
+    appendElement(errorElement, mainContainer);
   }
 
   function isMapActive() {
@@ -45,30 +43,31 @@
     return !(form.classList.contains('ad-form--disabled'));
   }
 
-  function setPageActive() {
-    map.classList.remove('map--faded');
-    // window.form.toggle();
-    // window.filter.toggle();
+  function onSuccess(data) {
+    window.adverts = data;
+    renderPins(window.adverts.slice(0, MAX_ADS));
+    toggleForm();
+    toggleFilter();
   }
 
   function setPageDisactive() {
     map.classList.add('map--faded');
-    window.form.toggle();
-    window.filter.toggle();
+    toggleForm();
+    toggleFilter();
   }
 
   function onMainPinMouseupActivatePage() {
     if (!isMapActive() && !isFormActive()) {
-      setPageActive();
-      window.data.get(DATA_URL, onSuccess, onError);
+      map.classList.remove('map--faded');
+      getData(DATA_URL, onSuccess, onError);
       mainPin.removeEventListener('mousedown', onMainPinMouseupActivatePage);
-      mainPin.removeEventListener('keydown', onKeyPressActivatePage)
+      mainPin.removeEventListener('keydown', onKeyPressActivatePage);
     }
   }
 
   function clearPage() {
-    window.card.remove();
-    window.pin.remove();
+    removeCard();
+    removePins();
     mainPin.style.left = MAIN_PIN_DEAFULT_LEFT;
     mainPin.style.top = MAIN_PIN_DEAFULT_TOP;
     setPageDisactive();
@@ -80,22 +79,21 @@
     }
   }
 
-  // function initPage() {
-  //   setPageDisactive();
-  // }
-
   function onResetButtonClick(evt) {
     evt.preventDefault();
     form.reset();
     clearPage();
-    window.leaseAds = [];
+    window.adverts = [];
+    setTimeout(function () {
+      setAddress();
+    });
     mainPin.addEventListener('mousedown', onMainPinMouseupActivatePage);
   }
 
   setPageDisactive();
-  window.dragndrop.setAddress();
+  setAddress();
   mainPin.addEventListener('keydown', onKeyPressActivatePage);
-  mainPin.addEventListener('mousedown', window.dragndrop.movePin);
+  mainPin.addEventListener('mousedown', onMouseDownMovePin);
   mainPin.addEventListener('mouseup', onMainPinMouseupActivatePage);
   resetButton.addEventListener('click', onResetButtonClick);
 })();

@@ -2,28 +2,28 @@
 (function () {
   function getData(url, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
+
     xhr.responseType = 'json';
+
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onSuccess(xhr.response);
-        console.log(xhr.response);
       } else {
-        onError(xhr.status + ' ' + xhr.statusText);
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('ошибка');
+      onError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('таймаут');
+      onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
     });
 
     xhr.timeout = 1000;
 
     xhr.open('GET', url);
-
     xhr.send();
   }
 

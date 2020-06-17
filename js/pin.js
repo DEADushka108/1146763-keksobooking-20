@@ -2,8 +2,11 @@
 (function () {
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+
   var createCard = window.card.create;
   var removeCard = window.card.remove;
+  var appendElement = window.utils.appendElement;
+
   var map = document.querySelector('.map');
   var pinsContainer = map.querySelector('.map__pins');
   var filtersContainer = map.querySelector('.map__filters-container');
@@ -29,10 +32,10 @@
 
     array.forEach(function (arr) {
       var pinElement = createPin(arr);
-      window.utils.appendElement(pinElement, fragment);
+      appendElement(pinElement, fragment);
     });
 
-    window.utils.appendElement(fragment, pinsContainer);
+    appendElement(fragment, pinsContainer);
   }
 
   function removePins() {
@@ -43,10 +46,10 @@
     });
   }
 
-  function onPinClick(evt, leaseAd) {
+  function onPinClick(evt, data) {
     var pinElement = evt.currentTarget;
     var pinElements = map.querySelectorAll('.map__pin');
-    var cardElement = createCard(leaseAd);
+    var cardElement = createCard(data);
 
     pinElements.forEach(removePinActiveState);
     pinElement.classList.add('map__pin--active');

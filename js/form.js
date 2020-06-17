@@ -101,7 +101,7 @@
   //   }
   // }
 
-  function titleInputHandler(evt) {
+  function onTitleInput(evt) {
     var valueLength = evt.target.value.length;
 
     if (valueLength < MIN_TITLE_LENGTH) {
@@ -113,11 +113,18 @@
     }
   }
 
+  function onFormReset() {
+    var deafultType = typeSelect.querySelector('option[selected]').value;
+    priceField.placeholder = MIN_PRICES[deafultType];
+    priceField.min = MIN_PRICES[deafultType];
+  }
+
   typeSelect.addEventListener('change', onTypeChange);
   checkinSelect.addEventListener('change', onCheckChange);
   checkoutSelect.addEventListener('change', onCheckChange);
   roomsSelect.addEventListener('change', onRoomsChange);
-  titleInput.addEventListener('input', titleInputHandler);
+  titleInput.addEventListener('input', onTitleInput);
+  form.addEventListener('reset', onFormReset);
 
   window.form = {
     toggle: toggleForm,
