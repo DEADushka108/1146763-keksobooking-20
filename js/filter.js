@@ -29,8 +29,8 @@
   function filterLeaseAds(advert) {
     var isCorrectType = true;
     var isCorrectPrice = true;
-    var isCorrectRooms = true;
-    var isCorrectGuests = true;
+    // var isCorrectRooms = true;
+    // var isCorrectGuests = true;
     var isCorrectFeatures = true;
     var features = featuresList.querySelectorAll('input:checked');
 
