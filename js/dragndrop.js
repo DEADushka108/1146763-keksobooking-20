@@ -14,7 +14,7 @@
 
   var mainPin = document.querySelector('.map__pin--main');
   var addressField = document.querySelector('#address');
-  addressField.disabled = true;
+  addressField.disabled = false;
 
   function setAddress() {
     var pinLocationX = Math.floor(mainPin.offsetLeft + mainPin.offsetWidth / 2);

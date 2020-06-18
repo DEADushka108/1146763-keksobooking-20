@@ -2,10 +2,14 @@
 (function () {
   var MAX_ADS = 5;
   var DATA_URL = 'https://javascript.pages.academy/keksobooking/data';
+  var SEND_URL = 'https://javascript.pages.academy/keksobooking';
   var MAIN_PIN_DEAFULT_TOP = '375px';
   var MAIN_PIN_DEAFULT_LEFT = '570px';
 
   var getData = window.data.get;
+  var sendData = window.data.send;
+  var onSuccessSend = window.modal.onSuccessSend;
+  var onErrorSend = window.modal.onErrorSend;
   var form = window.form.element;
   var toggleForm = window.form.toggle;
   var toggleFilter = window.filter.toggle;
@@ -90,10 +94,18 @@
     mainPin.addEventListener('mousedown', onMainPinMouseupActivatePage);
   }
 
+  function onFormSubmit(evt) {
+    sendData(SEND_URL, new FormData(form), onSuccessSend, onErrorSend);
+    form.reset();
+    clearPage();
+    evt.preventDefault();
+  }
+
   setPageDisactive();
   setAddress();
   mainPin.addEventListener('keydown', onKeyPressActivatePage);
   mainPin.addEventListener('mousedown', onMouseDownMovePin);
   mainPin.addEventListener('mouseup', onMainPinMouseupActivatePage);
+  form.addEventListener('submit', onFormSubmit);
   resetButton.addEventListener('click', onResetButtonClick);
 })();
