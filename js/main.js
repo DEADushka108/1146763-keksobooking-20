@@ -18,6 +18,7 @@
   var removeCard = window.card.remove;
   var onMouseDownMovePin = window.dragndrop.movePin;
   var setAddress = window.dragndrop.setAddress;
+  var isMapActive = window.dragndrop.isMapActive;
   var appendElement = window.utils.appendElement;
 
   var map = document.querySelector('.map');
@@ -37,10 +38,6 @@
     });
 
     appendElement(errorElement, mainContainer);
-  }
-
-  function isMapActive() {
-    return !(map.classList.contains('map--faded'));
   }
 
   function isFormActive() {
