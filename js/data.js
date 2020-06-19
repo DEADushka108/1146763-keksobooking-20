@@ -8,20 +8,22 @@
     return xhr;
   }
 
-  function getData(url, onSuccess, onError) {
-    var xhr = createXhrRequest();
-    xhr.addEventListener('load', function () {
+  function checkStatus(xhr, onSuccess, onError) {
+    return function () {
       if (xhr.status === OK_STATUS) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
-    });
+    } 
+  }
 
+  function getData(url, onSuccess, onError) {
+    var xhr = createXhrRequest();
+    xhr.addEventListener('load', checkStatus(xhr, onSuccess, onError));
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
-
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
     });
@@ -34,13 +36,7 @@
 
   function sendData(url, data, onSuccess, onError) {
     var xhr = createXhrRequest();
-    xhr.addEventListener('load', function () {
-      if (xhr.status === OK_STATUS) {
-        onSuccess(xhr.response);
-      } else {
-        onError('Ошибка отправки');
-      }
-    });
+    xhr.addEventListener('load', checkStatus(xhr, onSuccess, onError));
     xhr.open('POST', url);
     xhr.send(data);
   }

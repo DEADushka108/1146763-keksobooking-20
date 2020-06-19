@@ -56,10 +56,10 @@
       mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
       mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 
-      if (mainPin.offsetLeft > COORD_LIMIT.x.max - mainPin.offsetWidth) {
-        mainPin.style.left = COORD_LIMIT.x.max - mainPin.offsetWidth + 'px';
-      } else if (mainPin.offsetLeft < COORD_LIMIT.x.min) {
-        mainPin.style.left = COORD_LIMIT.x.min + 'px';
+      if (mainPin.offsetLeft > COORD_LIMIT.x.max - mainPin.offsetWidth / 2) {
+        mainPin.style.left = COORD_LIMIT.x.max - mainPin.offsetWidth / 2 + 'px';
+      } else if (mainPin.offsetLeft < COORD_LIMIT.x.min - mainPin.offsetWidth / 2) {
+        mainPin.style.left = COORD_LIMIT.x.min - mainPin.offsetWidth / 2 + 'px';
       }
 
       if (mainPin.offsetTop > COORD_LIMIT.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
