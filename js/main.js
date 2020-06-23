@@ -85,9 +85,7 @@
     form.reset();
     clearPage();
     window.adverts = [];
-    setTimeout(function () {
-      setAddress();
-    });
+    setAddress();
     mainPin.addEventListener('mousedown', onMainPinMouseupActivatePage);
   }
 

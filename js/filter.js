@@ -11,6 +11,7 @@
   var renderPins = window.pin.render;
   var removePins = window.pin.remove;
   var removeCard = window.card.remove;
+  var debounce = window.debounce;
 
   var filters = document.querySelector('.map__filters');
   var typeSelect = filters.querySelector('#housing-type');
@@ -26,7 +27,7 @@
     });
   }
 
-  function filterLeaseAds(advert) {
+  function filterAdverts(advert) {
     var isCorrectType = true;
     var isCorrectPrice = true;
     // var isCorrectRooms = true;
@@ -71,10 +72,12 @@
   }
 
   function onFilterChange() {
-    var adverts = window.adverts.filter(filterLeaseAds);
+    var adverts = window.adverts.filter(filterAdverts);
+    debounce(adverts)
     removeCard();
     removePins();
     renderPins(adverts.slice(0, MAX_ADS));
+
   }
 
   filters.addEventListener('change', onFilterChange);
