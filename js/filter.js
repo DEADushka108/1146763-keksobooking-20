@@ -73,7 +73,7 @@
 
   function onFilterChange() {
     var adverts = window.adverts.filter(filterAdverts);
-    debounce(adverts)
+    debounce(adverts);
     removeCard();
     removePins();
     renderPins(adverts.slice(0, MAX_ADS));
