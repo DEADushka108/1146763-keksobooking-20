@@ -38,7 +38,7 @@
       if (xhr.status === OK_STATUS) {
         onSuccess(xhr.response);
       } else {
-        onError('Ошибка отправки');
+        onError();
       }
     });
     xhr.open('POST', url);
