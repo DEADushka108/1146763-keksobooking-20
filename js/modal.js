@@ -18,7 +18,7 @@
     successElement.querySelector('.success__message').addEventListener('mousedown', onMouseDownSuccessRemove);
     appendElement(successElement, mainContainer);
 
-    document.addEventListener('keydown', onEscButtonPress)
+    document.addEventListener('keydown', onEscButtonPress);
   }
 
   function onMouseDownSuccessRemove() {
@@ -34,7 +34,7 @@
   }
 
   function onEscButtonPress(evt) {
-    isCorrectKey = evt.key ==='Escape';
+    var isCorrectKey = evt.key === 'Escape';
     if (isCorrectKey && document.querySelector('.success')) {
       onMouseDownSuccessRemove();
     } else if (isCorrectKey && document.querySelector('.error')) {

@@ -37,7 +37,7 @@
 
   function checkPrice(advert) {
     var isCorrectPrice = true;
-      if (priceSelect.value !== ANY_VALUE) {
+    if (priceSelect.value !== ANY_VALUE) {
       switch (priceSelect.value) {
         case 'low':
           isCorrectPrice = advert.offer.price < FILTER_PRICES.low;
@@ -82,7 +82,7 @@
 
   function getFiltredData(adverts) {
     var filteredAdverts = adverts.filter(function (advert) {
-      return checkType(advert) && checkPrice(advert) && checkFeatures(advert); //&& checkGuests(advert) && checkRooms(advert);
+      return checkType(advert) && checkPrice(advert) && checkFeatures(advert);//  && checkGuests(advert) && checkRooms(advert);
     });
     return filteredAdverts.slice(0, MAX_ADS);
   }
