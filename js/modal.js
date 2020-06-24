@@ -10,6 +10,7 @@
     appendElement(errorElement, mainContainer);
 
     document.addEventListener('keydown', onEscButtonPress);
+    document.addEventListener('mousedown', onErrorButtonRemove);
   }
 
   function onSuccessSend() {
@@ -31,6 +32,7 @@
     var errorElement = document.querySelector('.error');
     errorElement.remove();
     document.removeEventListener('keydown', onEscButtonPress);
+    document.removeEventListener('mousedown', onErrorButtonRemove);
   }
 
   function onEscButtonPress(evt) {
