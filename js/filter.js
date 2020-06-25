@@ -28,11 +28,7 @@
   }
 
   function checkType(advert) {
-    var isCorrectType = true;
-    if (typeSelect.value !== ANY_VALUE) {
-      isCorrectType = typeSelect.value === advert.offer.type;
-    }
-    return isCorrectType;
+    return typeSelect.value === ANY_VALUE ? true : typeSelect.value === advert.offer.type;
   }
 
   function checkPrice(advert) {
@@ -65,19 +61,11 @@
   }
 
   function checkRooms(advert) {
-    var isCorrectRooms = true;
-    if (roomsSelect.value !== ANY_VALUE) {
-      isCorrectRooms = parseInt(roomsSelect.value, 10) === parseInt(advert.offer.rooms, 10);
-    }
-    return isCorrectRooms;
+    return roomsSelect.value === ANY_VALUE ? true : parseInt(roomsSelect.value, 10) === parseInt(advert.offer.rooms, 10);
   }
 
   function checkGuests(advert) {
-    var isCorrectGuests = true;
-    if (guestsSelect.value !== ANY_VALUE) {
-      isCorrectGuests = parseInt(guestsSelect.value, 10) === parseInt(advert.offer.guests, 10);
-    }
-    return isCorrectGuests;
+    return guestsSelect.value === ANY_VALUE ? true : parseInt(guestsSelect.value, 10) === parseInt(advert.offer.guests, 10);
   }
 
   function getFiltredData(adverts) {
