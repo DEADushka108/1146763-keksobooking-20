@@ -1,7 +1,6 @@
 'use strict';
 (function () {
   var MAX_ADS = 5;
-  var LOAD_INTERVAL = 1000;
   var URL = {
     get: 'https://javascript.pages.academy/keksobooking/data',
     send: 'https://javascript.pages.academy/keksobooking'
@@ -26,25 +25,25 @@
   var onMouseDownMovePin = window.dragndrop.movePin;
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
-  // var appendElement = window.utils.appendElement;
+  var appendElement = window.utils.appendElement;
 
   var map = document.querySelector('.map');
-  // var mainContainer = document.querySelector('main');
+  var mainContainer = document.querySelector('main');
   var mainPin = document.querySelector('.map__pin--main');
   var resetButton = form.querySelector('.ad-form__reset');
 
   window.adverts = [];
 
-  function onError() {
-    // var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    // var errorElement = errorTemplate.cloneNode(true);
-    // errorElement.querySelector('.error__massage').textContent = message;
-    // errorElement.querySelector('.error__button').addEventListener('click', function () {
-    //   errorElement.remove();
-    window.setTimeout(getData(URL.get, onSuccess, onError), LOAD_INTERVAL);
-    // });
+  function onError(message) {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    errorElement.querySelector('.error__message').textContent = message;
+    errorElement.querySelector('.error__button').addEventListener('click', function () {
+      errorElement.remove();
+      getData(URL.get, onSuccess, onError);
+    });
 
-    // appendElement(errorElement, mainContainer);
+    appendElement(errorElement, mainContainer);
   }
 
   function onSuccess(data) {

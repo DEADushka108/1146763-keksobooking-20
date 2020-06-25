@@ -18,22 +18,19 @@
       if (isSuccessStatus(xhr.status)) {
         onSuccess(xhr.response);
       } else {
-        onError();
-        // onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError();
-      // onError('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError();
-      // onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
+      onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
     });
 
-    // xhr.timeout = 1000;
+    xhr.timeout = 1000;
 
     xhr.open('GET', url);
     xhr.send();
