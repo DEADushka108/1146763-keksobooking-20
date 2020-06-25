@@ -95,7 +95,7 @@
     setImageBlock(advert.author.avatar, cardElement, CardContent.avatar);
     setTextBlock(advert.offer.title, cardElement, CardContent.title);
     setTextBlock(advert.offer.address, cardElement, CardContent.address);
-    setTextBlock(advert.offer.price, cardElement, CardContent.price, advert.offer.price + '₽/ночь');
+    setTextBlock(advert.offer.price, cardElement, CardContent.price, advert.offer.price + ' ₽/ночь');
     setTextBlock(advert.offer.type, cardElement, CardContent.type, Types[advert.offer.type]);
     setTextBlock(advert.offer.rooms && advert.offer.guests, cardElement, CardContent.capacity, advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей');
     setTextBlock(advert.offer.checkin && advert.offer.checkout, cardElement, CardContent.time, 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout);
