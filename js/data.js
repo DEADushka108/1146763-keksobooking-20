@@ -8,25 +8,32 @@
     return xhr;
   }
 
+  function isSuccessStatus(status) {
+    return status === OK_STATUS ? true : false;
+  }
+
   function getData(url, onSuccess, onError) {
     var xhr = createXhrRequest();
     xhr.addEventListener('load', function () {
-      if (xhr.status === OK_STATUS) {
+      if (isSuccessStatus(xhr.status)) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError();
+        // onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError();
+      // onError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
+      onError();
+      // onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
     });
 
-    xhr.timeout = 1000;
+    // xhr.timeout = 1000;
 
     xhr.open('GET', url);
     xhr.send();
@@ -35,7 +42,7 @@
   function sendData(url, data, onSuccess, onError) {
     var xhr = createXhrRequest();
     xhr.addEventListener('load', function () {
-      if (xhr.status === OK_STATUS) {
+      if (isSuccessStatus(xhr.status)) {
         onSuccess(xhr.response);
       } else {
         onError();

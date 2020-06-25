@@ -3,7 +3,7 @@
 (function () {
   var MAX_ADS = 5;
   var ANY_VALUE = 'any';
-  var FILTER_PRICES = {
+  var FilterPrices = {
     'low': 10000,
     'hight': 50000
   };
@@ -40,13 +40,13 @@
     if (priceSelect.value !== ANY_VALUE) {
       switch (priceSelect.value) {
         case 'low':
-          isCorrectPrice = advert.offer.price < FILTER_PRICES.low;
+          isCorrectPrice = advert.offer.price < FilterPrices.low;
           break;
         case 'middle':
-          isCorrectPrice = advert.offer.price >= FILTER_PRICES.low && advert.offer.price < FILTER_PRICES.hight;
+          isCorrectPrice = advert.offer.price >= FilterPrices.low && advert.offer.price < FilterPrices.hight;
           break;
         case 'high':
-          isCorrectPrice = advert.offer.price >= FILTER_PRICES.hight;
+          isCorrectPrice = advert.offer.price >= FilterPrices.hight;
       }
     }
     return isCorrectPrice;
