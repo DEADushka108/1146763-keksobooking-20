@@ -1,10 +1,41 @@
 'use strict';
 (function () {
-  var MinPrices = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 100000
+  var TypeInfo = {
+    'bungalo': {
+      minPrice: 0,
+      message: null
+    },
+    'flat': {
+      minPrice: 1000,
+      message: 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей'
+    },
+    'house': {
+      minPrice: 5000,
+      message: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
+    },
+    'palace': {
+      minPrice: 100000,
+      message: 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей'
+    }
+  };
+
+  var RoomOption = {
+    firstOption: {
+      rooms: 1,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
+    },
+    secondOption: {
+      rooms: 2,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
+    },
+    thirdOption: {
+      rooms: 3,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
+    },
+    fourthOption: {
+      rooms: 100,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
+    }
   };
 
   var TitleLength = {
@@ -41,8 +72,8 @@
   }
 
   function onTypeChange(evt) {
-    priceField.placeholder = MinPrices[evt.target.value];
-    priceField.min = MinPrices[evt.target.value];
+    priceField.placeholder = TypeInfo[evt.target.value].minPrice;
+    priceField.min = TypeInfo[evt.target.value].minPrice;
   }
 
   function onCheckChange(evt) {
@@ -76,27 +107,27 @@
     capacitySelect.setCustomValidity('');
 
     switch (selectedRooms) {
-      case (1): {
+      case (RoomOption.firstOption.rooms): {
         if (selectedCapacity !== 1) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя';
+          message = RoomOption.firstOption.message;
         }
         break;
       }
-      case (2): {
+      case (RoomOption.secondOption.rooms): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей';
+          message = RoomOption.secondOption.message;
         }
         break;
       }
-      case (3): {
+      case (RoomOption.thirdOption.rooms): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей';
+          message = RoomOption.thirdOption.message;
         }
         break;
       }
-      case (100): {
+      case (RoomOption.fourthOption.rooms): {
         if (selectedCapacity !== 0) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей';
+          message = RoomOption.fourthOption.message;
         }
         break;
       }
@@ -105,33 +136,30 @@
     capacitySelect.setCustomValidity(message);
   }
 
-  function isCorrectPrice(price) {
-    return price < MinPrices[typeSelect.value] ? true : false;
+  function setMessage(price, message) {
+    if (price < TypeInfo[typeSelect.value].minPrice) {
+      message = TypeInfo[typeSelect.value].message;
+    }
+    return message;
   }
 
   function validatePrice() {
-    var setPrice = parseInt(priceField.value, 10);
+    var currentPrice = parseInt(priceField.value, 10);
     var message = '';
 
     priceField.setCustomValidity('');
 
     switch (typeSelect.value) {
       case 'flat': {
-        if (isCorrectPrice(setPrice)) {
-          message = 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей';
-        }
+        message = setMessage(currentPrice, message);
         break;
       }
       case 'house': {
-        if (isCorrectPrice(setPrice)) {
-          message = 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей';
-        }
+        message = setMessage(currentPrice, message);
         break;
       }
       case 'palace': {
-        if (isCorrectPrice(setPrice)) {
-          message = 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей';
-        }
+        message = setMessage(currentPrice, message);
         break;
       }
     }
@@ -161,8 +189,8 @@
 
   function onFormReset() {
     var deafultType = typeSelect.querySelector('option[selected]').value;
-    priceField.placeholder = MinPrices[deafultType];
-    priceField.min = MinPrices[deafultType];
+    priceField.placeholder = TypeInfo[deafultType].minPrice;
+    priceField.min = TypeInfo[deafultType].minPrice;
   }
 
   typeSelect.addEventListener('change', onTypeChange);
