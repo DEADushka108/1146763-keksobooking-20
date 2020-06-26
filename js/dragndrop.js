@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var PIN_TIP_HEIGHT = 22;
-  var COORD_LIMIT = {
+  var CoordLimit = {
     x: {
       min: 0,
       max: 1200
@@ -23,11 +23,13 @@
   function setAddress() {
     var pinLocationX = Math.floor(mainPin.offsetLeft + mainPin.offsetWidth / 2);
     var pinLocationY = Math.floor(mainPin.offsetTop + mainPin.offsetHeight / 2);
+
     if (isMapActive()) {
       pinLocationY += Math.floor(mainPin.offsetHeight / 2 + PIN_TIP_HEIGHT);
     }
+
     addressField.value = pinLocationX + ', ' + pinLocationY;
-    addressField.disabled = true;
+    addressField.readOnly = true;
   }
 
   function onMouseDownMovePin(evt) {
@@ -56,16 +58,16 @@
       mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
       mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 
-      if (mainPin.offsetLeft > COORD_LIMIT.x.max - mainPin.offsetWidth) {
-        mainPin.style.left = COORD_LIMIT.x.max - mainPin.offsetWidth + 'px';
-      } else if (mainPin.offsetLeft < COORD_LIMIT.x.min) {
-        mainPin.style.left = COORD_LIMIT.x.min + 'px';
+      if (mainPin.offsetLeft > CoordLimit.x.max - mainPin.offsetWidth / 2) {
+        mainPin.style.left = CoordLimit.x.max - mainPin.offsetWidth / 2 + 'px';
+      } else if (mainPin.offsetLeft < CoordLimit.x.min - mainPin.offsetWidth / 2) {
+        mainPin.style.left = CoordLimit.x.min - mainPin.offsetWidth / 2 + 'px';
       }
 
-      if (mainPin.offsetTop > COORD_LIMIT.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
-        mainPin.style.top = COORD_LIMIT.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
-      } else if (mainPin.offsetTop < COORD_LIMIT.y.min - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
-        mainPin.style.top = COORD_LIMIT.y.min - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
+      if (mainPin.offsetTop > CoordLimit.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
+        mainPin.style.top = CoordLimit.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
+      } else if (mainPin.offsetTop < CoordLimit.y.min - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
+        mainPin.style.top = CoordLimit.y.min - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
       }
     }
 

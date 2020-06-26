@@ -8,10 +8,14 @@
     return xhr;
   }
 
+  function isSuccessStatus(status) {
+    return status === OK_STATUS ? true : false;
+  }
+
   function getData(url, onSuccess, onError) {
     var xhr = createXhrRequest();
     xhr.addEventListener('load', function () {
-      if (xhr.status === OK_STATUS) {
+      if (isSuccessStatus(xhr.status)) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -35,10 +39,10 @@
   function sendData(url, data, onSuccess, onError) {
     var xhr = createXhrRequest();
     xhr.addEventListener('load', function () {
-      if (xhr.status === OK_STATUS) {
+      if (isSuccessStatus(xhr.status)) {
         onSuccess(xhr.response);
       } else {
-        onError('Ошибка отправки');
+        onError();
       }
     });
     xhr.open('POST', url);

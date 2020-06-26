@@ -3,7 +3,7 @@
 (function () {
   var MAX_ADS = 5;
   var ANY_VALUE = 'any';
-  var FILTER_PRICES = {
+  var FilterPrices = {
     'low': 10000,
     'hight': 50000
   };
@@ -11,12 +11,13 @@
   var renderPins = window.pin.render;
   var removePins = window.pin.remove;
   var removeCard = window.card.remove;
+  var debounce = window.debounce;
 
   var filters = document.querySelector('.map__filters');
   var typeSelect = filters.querySelector('#housing-type');
   var priceSelect = filters.querySelector('#housing-price');
-  // var roomsSelect = filters.querySelector('#housing-rooms');
-  // var guestsSelect = filters.querySelector('#housing-guests');
+  var roomsSelect = filters.querySelector('#housing-rooms');
+  var guestsSelect = filters.querySelector('#housing-guests');
   var featuresList = filters.querySelector('#housing-features');
 
   function toggleFilters() {
@@ -26,55 +27,59 @@
     });
   }
 
-  function filterLeaseAds(advert) {
-    var isCorrectType = true;
+  function checkType(advert) {
+    return typeSelect.value === ANY_VALUE ? true : typeSelect.value === advert.offer.type;
+  }
+
+  function checkPrice(advert) {
     var isCorrectPrice = true;
-    // var isCorrectRooms = true;
-    // var isCorrectGuests = true;
-    var isCorrectFeatures = true;
-    var features = featuresList.querySelectorAll('input:checked');
-
-    if (typeSelect.value !== ANY_VALUE) {
-      isCorrectType = typeSelect.value === advert.offer.type;
-    }
-
     if (priceSelect.value !== ANY_VALUE) {
       switch (priceSelect.value) {
         case 'low':
-          isCorrectPrice = advert.offer.price < FILTER_PRICES.low;
+          isCorrectPrice = advert.offer.price < FilterPrices.low;
           break;
         case 'middle':
-          isCorrectPrice = advert.offer.price >= FILTER_PRICES.low && advert.offer.price < FILTER_PRICES.hight;
+          isCorrectPrice = advert.offer.price >= FilterPrices.low && advert.offer.price < FilterPrices.hight;
           break;
         case 'high':
-          isCorrectPrice = advert.offer.price >= FILTER_PRICES.hight;
+          isCorrectPrice = advert.offer.price >= FilterPrices.hight;
       }
     }
+    return isCorrectPrice;
+  }
 
-    // if (roomsSelect !== ANY_VALUE) {
-    //   isCorrectRooms = parseInt(roomsSelect.value, 10) === advert.offer.rooms;
-    // }
-
-    // if (guestsSelect !== ANY_VALUE) {
-    //   isCorrectGuests = parseInt(guestsSelect.value, 10) === advert.offer.guests;
-    // }
-
+  function checkFeatures(advert) {
+    var isCorrectFeatures = true;
+    var features = featuresList.querySelectorAll('input:checked');
     features.forEach(function (feature) {
       if (advert.offer.features.indexOf(feature.value) === -1) {
         isCorrectFeatures = false;
         return;
       }
     });
+    return isCorrectFeatures;
+  }
 
-    return isCorrectType && isCorrectPrice && isCorrectFeatures;
-    //  && isCorrectRooms && isCorrectGuests;
+  function checkRooms(advert) {
+    return roomsSelect.value === ANY_VALUE ? true : parseInt(roomsSelect.value, 10) === parseInt(advert.offer.rooms, 10);
+  }
+
+  function checkGuests(advert) {
+    return guestsSelect.value === ANY_VALUE ? true : parseInt(guestsSelect.value, 10) === parseInt(advert.offer.guests, 10);
+  }
+
+  function getFiltredData(adverts) {
+    var filteredAdverts = adverts.filter(function (advert) {
+      return checkType(advert) && checkPrice(advert) && checkFeatures(advert) && checkGuests(advert) && checkRooms(advert);
+    });
+    return filteredAdverts.slice(0, MAX_ADS);
   }
 
   function onFilterChange() {
-    var adverts = window.adverts.filter(filterLeaseAds);
     removeCard();
     removePins();
-    renderPins(adverts.slice(0, MAX_ADS));
+    var adverts = window.adverts;
+    debounce(renderPins(getFiltredData(adverts)));
   }
 
   filters.addEventListener('change', onFilterChange);

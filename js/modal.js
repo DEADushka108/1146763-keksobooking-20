@@ -6,21 +6,42 @@
   function onErrorSend() {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
-    errorElement.querySelector('.error__button').addEventListener('click', function () {
-      errorElement.remove();
-    });
-
+    errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonRemove);
     appendElement(errorElement, mainContainer);
+
+    document.addEventListener('keydown', onEscButtonPress);
+    document.addEventListener('mousedown', onErrorButtonRemove);
   }
 
   function onSuccessSend() {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
-    successElement.querySelector('.success__message').addEventListener('mousedown', function () {
-      successElement.remove();
-    });
-
+    successElement.querySelector('.success__message').addEventListener('mousedown', onMouseDownSuccessRemove);
     appendElement(successElement, mainContainer);
+
+    document.addEventListener('keydown', onEscButtonPress);
+  }
+
+  function onMouseDownSuccessRemove() {
+    var successElement = document.querySelector('.success');
+    successElement.remove();
+    document.removeEventListener('keydown', onEscButtonPress);
+  }
+
+  function onErrorButtonRemove() {
+    var errorElement = document.querySelector('.error');
+    errorElement.remove();
+    document.removeEventListener('keydown', onEscButtonPress);
+    document.removeEventListener('mousedown', onErrorButtonRemove);
+  }
+
+  function onEscButtonPress(evt) {
+    var isCorrectKey = evt.key === 'Escape';
+    if (isCorrectKey && document.querySelector('.success')) {
+      onMouseDownSuccessRemove();
+    } else if (isCorrectKey && document.querySelector('.error')) {
+      onErrorButtonRemove();
+    }
   }
 
   window.modal = {

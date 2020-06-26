@@ -1,7 +1,9 @@
 'use strict';
 (function () {
-  var PIN_WIDTH = 50;
-  var PIN_HEIGHT = 70;
+  var PinParameters = {
+    width: 50,
+    height: 70
+  };
 
   var createCard = window.card.create;
   var removeCard = window.card.remove;
@@ -15,8 +17,8 @@
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
 
-    pinElement.style.left = data.location.x - PIN_WIDTH / 2 + 'px';
-    pinElement.style.top = data.location.y - PIN_HEIGHT + 'px';
+    pinElement.style.left = data.location.x - PinParameters.width / 2 + 'px';
+    pinElement.style.top = data.location.y - PinParameters.height + 'px';
     pinElement.querySelector('img').setAttribute('src', data.author.avatar);
     pinElement.querySelector('img').setAttribute('alt', data.offer.title);
 
