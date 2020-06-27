@@ -71,7 +71,7 @@
     if (!isMapActive() && !isFormActive()) {
       map.classList.remove('map--faded');
       getData(URL.get, onSuccess, onError);
-      mainPin.removeEventListener('mousedown', onMainPinMouseupActivatePage);
+      mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
       mainPin.removeEventListener('keydown', onKeyPressActivatePage);
     }
   }
@@ -86,7 +86,7 @@
 
   function onKeyPressActivatePage(evt) {
     if (isEnterPressed(evt)) {
-      onMainPinMouseupActivatePage();
+      onMainPinMouseDownActivatePage();
     }
   }
 
@@ -96,7 +96,7 @@
     clearPage();
     window.adverts = [];
     setAddress();
-    mainPin.addEventListener('mousedown', onMainPinMouseupActivatePage);
+    mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
   function onFormSubmit(evt) {
