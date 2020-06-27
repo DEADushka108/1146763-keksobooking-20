@@ -67,7 +67,7 @@
     toggleFilter();
   }
 
-  function onMainPinMouseupActivatePage() {
+  function onMainPinMouseDownActivatePage() {
     if (!isMapActive() && !isFormActive()) {
       map.classList.remove('map--faded');
       getData(URL.get, onSuccess, onError);
@@ -110,7 +110,7 @@
   setAddress();
   mainPin.addEventListener('keydown', onKeyPressActivatePage);
   mainPin.addEventListener('mousedown', onMouseDownMovePin);
-  mainPin.addEventListener('mouseup', onMainPinMouseupActivatePage);
+  mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   form.addEventListener('submit', onFormSubmit);
   resetButton.addEventListener('click', onResetButtonClick);
 })();
