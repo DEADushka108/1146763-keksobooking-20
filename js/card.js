@@ -27,6 +27,7 @@
 
   var appendElement = window.utils.appendElement;
   var clearChildren = window.utils.clearChildren;
+  var isEscPressed = window.keyboard.isEscPressed;
 
   function createPhoto(src) {
     var photoElement = document.createElement('img');
@@ -121,7 +122,7 @@
   }
 
   function onEscButtonPress(evt) {
-    if (evt.key === 'Escape') {
+    if (isEscPressed(evt)) {
       onCloseButtonClick();
     }
   }

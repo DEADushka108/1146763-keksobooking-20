@@ -25,25 +25,32 @@
   var onMouseDownMovePin = window.dragndrop.movePin;
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
-  var appendElement = window.utils.appendElement;
+  // var appendElement = window.utils.appendElement;
+  var isEnterPressed = window.keyboard.isEnterPressed;
+  // var isEscPressed = window.keyboard.isEscPressed;
 
   var map = document.querySelector('.map');
-  var mainContainer = document.querySelector('main');
+  // var mainContainer = document.querySelector('main');
   var mainPin = document.querySelector('.map__pin--main');
   var resetButton = form.querySelector('.ad-form__reset');
 
   window.adverts = [];
 
-  function onError(message) {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    errorElement.querySelector('.error__message').textContent = message;
-    errorElement.querySelector('.error__button').addEventListener('click', function () {
-      errorElement.remove();
-      getData(URL.get, onSuccess, onError);
-    });
+  // function onError(message) {
+  //   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  //   var errorElement = errorTemplate.cloneNode(true);
+  //   errorElement.querySelector('.error__message').textContent = message;
+  //   errorElement.querySelector('.error__button').addEventListener('click', function () {
+  //     errorElement.remove();
+  //     getData(URL.get, onSuccess, onError);
+  //   });
 
-    appendElement(errorElement, mainContainer);
+  //   appendElement(errorElement, mainContainer);
+  // }
+
+  function onError(message) {
+    onErrorSend(message);
+    map.classList.add('map--faded');
   }
 
   function onSuccess(data) {
@@ -78,7 +85,7 @@
   }
 
   function onKeyPressActivatePage(evt) {
-    if (evt.key === 'Enter') {
+    if (isEnterPressed(evt)) {
       onMainPinMouseupActivatePage();
     }
   }

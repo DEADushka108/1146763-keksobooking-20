@@ -1,11 +1,15 @@
 'use strict';
 (function () {
   var appendElement = window.utils.appendElement;
+  var isEscPressed = window.keyboard.isEscPressed;
   var mainContainer = document.querySelector('main');
 
-  function onErrorSend() {
+  function onErrorSend(message) {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
+    if (message) {
+      errorElement.querySelector('.error__message').textContent = message;
+    }
     errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonRemove);
     appendElement(errorElement, mainContainer);
 
@@ -36,10 +40,9 @@
   }
 
   function onEscButtonPress(evt) {
-    var isCorrectKey = evt.key === 'Escape';
-    if (isCorrectKey && document.querySelector('.success')) {
+    if (isEscPressed(evt) && document.querySelector('.success')) {
       onMouseDownSuccessRemove();
-    } else if (isCorrectKey && document.querySelector('.error')) {
+    } else if (isEscPressed(evt) && document.querySelector('.error')) {
       onErrorButtonRemove();
     }
   }
