@@ -17,7 +17,7 @@
   var form = window.form.element;
   var isFormActive = window.form.isFormActive;
   var toggleForm = window.form.toggle;
-  var resetPhoto = window.form.resetPhoto;
+  var resetPhoto = window.preview.resetPhoto;
   var setValidateForm = window.form.setValidateForm;
   var toggleFilter = window.filter.toggle;
   var renderPins = window.pin.render;
@@ -26,29 +26,14 @@
   var onMouseDownMovePin = window.dragndrop.movePin;
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
-  // var appendElement = window.utils.appendElement;
   var isEnterPressed = window.utils.isEnterPressed;
   var isMouseLeftButtonPressed = window.utils.isMouseLeftButtonPressed;
-  // var isEscPressed = window.utils.isEscPressed;
 
   var map = document.querySelector('.map');
-  // var mainContainer = document.querySelector('main');
   var mainPin = document.querySelector('.map__pin--main');
   var resetButton = form.querySelector('.ad-form__reset');
 
   window.adverts = [];
-
-  // function onError(message) {
-  //   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-  //   var errorElement = errorTemplate.cloneNode(true);
-  //   errorElement.querySelector('.error__message').textContent = message;
-  //   errorElement.querySelector('.error__button').addEventListener('click', function () {
-  //     errorElement.remove();
-  //     getData(URL.get, onSuccess, onError);
-  //   });
-
-  //   appendElement(errorElement, mainContainer);
-  // }
 
   function onError(message) {
     onErrorSend(message);

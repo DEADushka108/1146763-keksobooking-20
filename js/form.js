@@ -1,13 +1,6 @@
 'use strict';
 (function () {
-  var FILE_TYPES = ['gif', 'png', 'jpg', 'jpeg'];
   var FORM_DISABLE_CLASS = 'ad-form--disabled';
-
-  var PhotoParameter = {
-    width: 70,
-    heigth: 70,
-    alt: 'Фотография жилья'
-  };
 
   var TypeInfo = {
     'bungalo': {
@@ -52,9 +45,6 @@
     max: 100
   };
 
-  var createPhoto = window.card.createPhoto;
-  var appendElement = window.utils.appendElement;
-
   var form = document.querySelector('.ad-form');
   var fieldsets = form.querySelectorAll('fieldset');
   var typeSelect = form.querySelector('#type');
@@ -64,13 +54,6 @@
   var roomsSelect = form.querySelector('#room_number');
   var capacitySelect = form.querySelector('#capacity');
   var titleInput = form.querySelector('#title');
-  var avatarImg = form.querySelector('.ad-form__field input[type=file]');
-  var photoImg = form.querySelector('.ad-form__upload input[type=file]');
-  var previewAvatar = form.querySelector('.ad-form-header__preview img');
-  var photoContainer = form.querySelector('.ad-form__photo-container');
-  var previewPhoto = photoContainer.querySelector('.ad-form__photo');
-  var deafultAvatar = previewAvatar.src;
-  var photoArray = [];
 
   function toggleForm() {
     form.classList.toggle(FORM_DISABLE_CLASS);
@@ -212,54 +195,6 @@
     priceField.min = TypeInfo[deafultType].minPrice;
   }
 
-  function showImage(element, onLoad) {
-    var file = element.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        onLoad(reader.result);
-      });
-
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function createPhotoElement(src) {
-    var element = document.createElement('div');
-    element.classList.add('ad-form__photo');
-    var image = createPhoto(src, PhotoParameter.alt, PhotoParameter.width, PhotoParameter.heigth);
-    appendElement(image, element);
-    photoArray.push(element);
-    photoContainer.insertBefore(element, previewPhoto);
-  }
-
-  function resetPhoto() {
-    if (photoArray) {
-      photoArray.forEach(function (photo) {
-        photo.remove();
-      });
-    }
-    photoArray = [];
-    previewAvatar.src = deafultAvatar;
-  }
-
-  avatarImg.addEventListener('change', function () {
-    showImage(avatarImg, function (image) {
-      previewAvatar.src = image;
-    });
-  });
-
-  photoImg.addEventListener('change', function () {
-    showImage(photoImg, createPhotoElement);
-  });
-
   typeSelect.addEventListener('change', onTypeChange);
   priceField.addEventListener('input', onPriceFieldInput);
   checkinSelect.addEventListener('change', onCheckChange);
@@ -273,7 +208,6 @@
     setValidateForm: setValidateForm,
     isFormActive: isFormActive,
     toggle: toggleForm,
-    resetPhoto: resetPhoto,
     element: form
   };
 })();
