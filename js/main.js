@@ -5,7 +5,7 @@
     get: 'https://javascript.pages.academy/keksobooking/data',
     send: 'https://javascript.pages.academy/keksobooking'
   };
-  var MainPinPosition = {
+  var MAIN_PIN_POSITION = {
     top: '375px',
     left: '570px'
   };
@@ -86,8 +86,8 @@
     removeCard();
     removePins();
     resetPhoto();
-    mainPin.style.left = MainPinPosition.left;
-    mainPin.style.top = MainPinPosition.top;
+    mainPin.style.left = MAIN_PIN_POSITION.left;
+    mainPin.style.top = MAIN_PIN_POSITION.top;
     setPageDisactive();
   }
 

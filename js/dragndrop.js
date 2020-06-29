@@ -1,6 +1,8 @@
 'use strict';
 (function () {
   var PIN_TIP_HEIGHT = 22;
+  var MAP_DISABLE_CLASS = 'map--faded';
+
   var CoordLimit = {
     x: {
       min: 0,
@@ -17,7 +19,7 @@
   var addressField = document.querySelector('#address');
 
   function isMapActive() {
-    return !(map.classList.contains('map--faded'));
+    return !(map.classList.contains(MAP_DISABLE_CLASS));
   }
 
   function setAddress() {

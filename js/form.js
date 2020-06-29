@@ -1,6 +1,13 @@
 'use strict';
 (function () {
   var FILE_TYPES = ['gif', 'png', 'jpg', 'jpeg'];
+  var FORM_DISABLE_CLASS = 'ad-form--disabled';
+
+  var PhotoParameter = {
+    width: 70,
+    heigth: 70,
+    alt: 'Фотография жилья'
+  };
 
   var TypeInfo = {
     'bungalo': {
@@ -46,6 +53,7 @@
   };
 
   var createPhoto = window.card.createPhoto;
+  var appendElement = window.utils.appendElement;
 
   var form = document.querySelector('.ad-form');
   var fieldsets = form.querySelectorAll('fieldset');
@@ -62,17 +70,17 @@
   var photoContainer = form.querySelector('.ad-form__photo-container');
   var previewPhoto = photoContainer.querySelector('.ad-form__photo');
   var deafultAvatar = previewAvatar.src;
-  var photos = [];
+  var photoArray = [];
 
   function toggleForm() {
-    form.classList.toggle('ad-form--disabled');
+    form.classList.toggle(FORM_DISABLE_CLASS);
     fieldsets.forEach(function (fieldset) {
       fieldset.disabled = !fieldset.disabled;
     });
   }
 
   function isFormActive() {
-    return !(form.classList.contains('ad-form--disabled'));
+    return !(form.classList.contains(FORM_DISABLE_CLASS));
   }
 
   function setValidateForm() {
@@ -204,47 +212,52 @@
     priceField.min = TypeInfo[deafultType].minPrice;
   }
 
-  function addImageLoader(element, onLoad) {
-    element.addEventListener('change', function () {
-      var file = element.files[0];
-      var fileName = file.name.toLowerCase();
+  function showImage(element, onLoad) {
+    var file = element.files[0];
+    var fileName = file.name.toLowerCase();
 
-      var matches = FILE_TYPES.some(function (it) {
-        return fileName.endsWith(it);
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        onLoad(reader.result);
       });
 
-      if (matches) {
-        var reader = new FileReader();
+      reader.readAsDataURL(file);
+    }
+  }
 
-        reader.addEventListener('load', function () {
-          onLoad(reader.result);
-        });
-
-        reader.readAsDataURL(file);
-      }
-    });
+  function createPhotoElement(src) {
+    var element = document.createElement('div');
+    element.classList.add('ad-form__photo');
+    var image = createPhoto(src, PhotoParameter.alt, PhotoParameter.width, PhotoParameter.heigth);
+    appendElement(image, element);
+    photoArray.push(element);
+    photoContainer.insertBefore(element, previewPhoto);
   }
 
   function resetPhoto() {
-    if (photos) {
-      photos.forEach(function (photo) {
+    if (photoArray) {
+      photoArray.forEach(function (photo) {
         photo.remove();
       });
     }
+    photoArray = [];
     previewAvatar.src = deafultAvatar;
   }
 
-  addImageLoader(avatarImg, function (image) {
-    previewAvatar.src = image;
+  avatarImg.addEventListener('change', function () {
+    showImage(avatarImg, function (image) {
+      previewAvatar.src = image;
+    });
   });
 
-  addImageLoader(photoImg, function (image) {
-    var photoElement = createPhoto(image, 'Фотография жилья', 70, 70, 'ad-form__photo');
-    var clone = previewPhoto.cloneNode(true);
-    photoContainer.appendChild(clone);
-    previewPhoto.appendChild(photoElement);
-    photos.push(photoElement);
-    previewPhoto = clone;
+  photoImg.addEventListener('change', function () {
+    showImage(photoImg, createPhotoElement);
   });
 
   typeSelect.addEventListener('change', onTypeChange);

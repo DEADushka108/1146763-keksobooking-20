@@ -33,8 +33,10 @@
     var fragment = document.createDocumentFragment();
 
     array.forEach(function (arr) {
-      var pinElement = createPin(arr);
-      appendElement(pinElement, fragment);
+      if (arr.offer) {
+        var pinElement = createPin(arr);
+        appendElement(pinElement, fragment);
+      }
     });
 
     appendElement(fragment, pinsContainer);
