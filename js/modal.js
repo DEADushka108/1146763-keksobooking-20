@@ -1,7 +1,8 @@
 'use strict';
 (function () {
   var appendElement = window.utils.appendElement;
-  var isEscPressed = window.keyboard.isEscPressed;
+  var isEscPressed = window.utils.isEscPressed;
+
   var mainContainer = document.querySelector('main');
 
   function onErrorSend(message) {

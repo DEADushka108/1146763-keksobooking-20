@@ -1,6 +1,13 @@
 'use strict';
 (function () {
+  var PhotoParameter = {
+    width: 45,
+    heigth: 40,
+    alt: 'Фотография жилья'
+  };
+
   var HIDE_CLASS = 'hidden';
+
   var CardContent = {
     template: '#card',
     card: '.map__card',
@@ -27,15 +34,15 @@
 
   var appendElement = window.utils.appendElement;
   var clearChildren = window.utils.clearChildren;
-  var isEscPressed = window.keyboard.isEscPressed;
+  var isEscPressed = window.utils.isEscPressed;
 
-  function createPhoto(src) {
+  function createPhoto(src, alt, width, heigth, className) {
     var photoElement = document.createElement('img');
     photoElement.setAttribute('src', src);
-    photoElement.setAttribute('alt', 'Фотография жилья');
-    photoElement.setAttribute('width', 45);
-    photoElement.setAttribute('heigth', 40);
-    photoElement.classList.add(CardContent.photo);
+    photoElement.setAttribute('alt', alt);
+    photoElement.setAttribute('width', width);
+    photoElement.setAttribute('heigth', heigth);
+    photoElement.classList.add(className);
 
     return photoElement;
   }
@@ -62,7 +69,7 @@
     clearChildren(container);
     if (adData.length) {
       adData.forEach(function (src) {
-        var cardElement = createPhoto(src);
+        var cardElement = createPhoto(src, PhotoParameter.alt, PhotoParameter.width, PhotoParameter.heigth, CardContent.photo);
         appendElement(cardElement, container);
       });
     } else {
@@ -137,6 +144,7 @@
 
   window.card = {
     create: createCard,
-    remove: removeCard
+    remove: removeCard,
+    createPhoto: createPhoto
   };
 })();

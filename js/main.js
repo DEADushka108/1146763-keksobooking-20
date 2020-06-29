@@ -17,6 +17,7 @@
   var form = window.form.element;
   var isFormActive = window.form.isFormActive;
   var toggleForm = window.form.toggle;
+  var resetPhoto = window.form.resetPhoto;
   var setValidateForm = window.form.setValidateForm;
   var toggleFilter = window.filter.toggle;
   var renderPins = window.pin.render;
@@ -26,8 +27,9 @@
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
   // var appendElement = window.utils.appendElement;
-  var isEnterPressed = window.keyboard.isEnterPressed;
-  // var isEscPressed = window.keyboard.isEscPressed;
+  var isEnterPressed = window.utils.isEnterPressed;
+  var isMouseLeftButtonPressed = window.utils.isMouseLeftButtonPressed;
+  // var isEscPressed = window.utils.isEscPressed;
 
   var map = document.querySelector('.map');
   // var mainContainer = document.querySelector('main');
@@ -51,6 +53,8 @@
   function onError(message) {
     onErrorSend(message);
     map.classList.add('map--faded');
+    mainPin.addEventListener('keydown', onKeyPressActivatePage);
+    mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
   function onSuccess(data) {
@@ -67,18 +71,21 @@
     toggleFilter();
   }
 
-  function onMainPinMouseDownActivatePage() {
-    if (!isMapActive() && !isFormActive()) {
-      map.classList.remove('map--faded');
-      getData(URL.get, onSuccess, onError);
-      mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
-      mainPin.removeEventListener('keydown', onKeyPressActivatePage);
+  function onMainPinMouseDownActivatePage(evt) {
+    if (isMouseLeftButtonPressed(evt)) {
+      if (!isMapActive() && !isFormActive()) {
+        getData(URL.get, onSuccess, onError);
+        map.classList.remove('map--faded');
+        mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
+        mainPin.removeEventListener('keydown', onKeyPressActivatePage);
+      }
     }
   }
 
   function clearPage() {
     removeCard();
     removePins();
+    resetPhoto();
     mainPin.style.left = MainPinPosition.left;
     mainPin.style.top = MainPinPosition.top;
     setPageDisactive();
@@ -93,6 +100,7 @@
   function onResetButtonClick(evt) {
     evt.preventDefault();
     form.reset();
+    resetPhoto();
     clearPage();
     window.adverts = [];
     setAddress();
