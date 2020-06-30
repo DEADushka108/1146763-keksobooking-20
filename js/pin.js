@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+  var PIN_ACTIVE_CLASS = 'map__pin--active';
+
   var PinParameters = {
     width: 50,
     height: 70
@@ -8,6 +10,7 @@
   var createCard = window.card.create;
   var removeCard = window.card.remove;
   var appendElement = window.utils.appendElement;
+  var removeActiveState = window.utils.removeActiveState;
 
   var map = document.querySelector('.map');
   var pinsContainer = map.querySelector('.map__pins');
@@ -55,16 +58,15 @@
     var pinElements = map.querySelectorAll('.map__pin');
     var cardElement = createCard(data);
 
-    pinElements.forEach(removePinActiveState);
-    pinElement.classList.add('map__pin--active');
+    pinElements.forEach(function (element) {
+      removeActiveState(element, PIN_ACTIVE_CLASS);
+    });
+
+    pinElement.classList.add(PIN_ACTIVE_CLASS);
 
     removeCard();
 
     map.insertBefore(cardElement, filtersContainer);
-  }
-
-  function removePinActiveState(pinElement) {
-    pinElement.classList.remove('map__pin--active');
   }
 
   window.pin = {

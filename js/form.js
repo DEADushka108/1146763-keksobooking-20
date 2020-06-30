@@ -1,8 +1,24 @@
 'use strict';
 (function () {
-  var FORM_DISABLE_CLASS = 'ad-form--disabled';
+  var TitleLength = {
+    MIN: 30,
+    MAX: 100
+  };
 
-  var TypeInfo = {
+  var FormSelector = {
+    FORM: '.ad-form',
+    DISABLED: 'ad-form--disabled',
+    FIELDSET: 'fieldset',
+    TITLE: '#title',
+    TYPE: '#type',
+    PRICE: '#price',
+    CHECKIN: '#timein',
+    CHECKOUT: '#timeout',
+    ROOM: '#room_number',
+    CAPACITY: '#capacity'
+  };
+
+  var typeInfo = {
     'bungalo': {
       minPrice: 0,
       message: null
@@ -21,7 +37,7 @@
     }
   };
 
-  var RoomOption = {
+  var roomOption = {
     firstOption: {
       rooms: 1,
       message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
@@ -40,30 +56,25 @@
     }
   };
 
-  var TitleLength = {
-    min: 30,
-    max: 100
-  };
-
-  var form = document.querySelector('.ad-form');
-  var fieldsets = form.querySelectorAll('fieldset');
-  var typeSelect = form.querySelector('#type');
-  var priceField = form.querySelector('#price');
-  var checkinSelect = form.querySelector('#timein');
-  var checkoutSelect = form.querySelector('#timeout');
-  var roomsSelect = form.querySelector('#room_number');
-  var capacitySelect = form.querySelector('#capacity');
-  var titleInput = form.querySelector('#title');
+  var form = document.querySelector(FormSelector.FORM);
+  var fieldsets = form.querySelectorAll(FormSelector.FIELDSET);
+  var titleInput = form.querySelector(FormSelector.TITLE);
+  var typeSelect = form.querySelector(FormSelector.TYPE);
+  var priceField = form.querySelector(FormSelector.PRICE);
+  var checkinSelect = form.querySelector(FormSelector.CHECKIN);
+  var checkoutSelect = form.querySelector(FormSelector.CHECKOUT);
+  var roomsSelect = form.querySelector(FormSelector.ROOM);
+  var capacitySelect = form.querySelector(FormSelector.CAPACITY);
 
   function toggleForm() {
-    form.classList.toggle(FORM_DISABLE_CLASS);
+    form.classList.toggle(FormSelector.DISABLED);
     fieldsets.forEach(function (fieldset) {
       fieldset.disabled = !fieldset.disabled;
     });
   }
 
   function isFormActive() {
-    return !(form.classList.contains(FORM_DISABLE_CLASS));
+    return !(form.classList.contains(FormSelector.DISABLED));
   }
 
   function setValidateForm() {
@@ -74,8 +85,8 @@
   }
 
   function onTypeChange(evt) {
-    priceField.placeholder = TypeInfo[evt.target.value].minPrice;
-    priceField.min = TypeInfo[evt.target.value].minPrice;
+    priceField.placeholder = typeInfo[evt.target.value].minPrice;
+    priceField.min = typeInfo[evt.target.value].minPrice;
   }
 
   function onCheckChange(evt) {
@@ -109,27 +120,27 @@
     capacitySelect.setCustomValidity('');
 
     switch (selectedRooms) {
-      case (RoomOption.firstOption.rooms): {
+      case (roomOption.firstOption.rooms): {
         if (selectedCapacity !== 1) {
-          message = RoomOption.firstOption.message;
+          message = roomOption.firstOption.message;
         }
         break;
       }
-      case (RoomOption.secondOption.rooms): {
+      case (roomOption.secondOption.rooms): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2) {
-          message = RoomOption.secondOption.message;
+          message = roomOption.secondOption.message;
         }
         break;
       }
-      case (RoomOption.thirdOption.rooms): {
+      case (roomOption.thirdOption.rooms): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
-          message = RoomOption.thirdOption.message;
+          message = roomOption.thirdOption.message;
         }
         break;
       }
-      case (RoomOption.fourthOption.rooms): {
+      case (roomOption.fourthOption.rooms): {
         if (selectedCapacity !== 0) {
-          message = RoomOption.fourthOption.message;
+          message = roomOption.fourthOption.message;
         }
         break;
       }
@@ -139,8 +150,8 @@
   }
 
   function setMessage(price, message) {
-    if (price < TypeInfo[typeSelect.value].minPrice) {
-      message = TypeInfo[typeSelect.value].message;
+    if (price < typeInfo[typeSelect.value].minPrice) {
+      message = typeInfo[typeSelect.value].message;
     }
     return message;
   }
@@ -180,19 +191,13 @@
   function onTitleInput(evt) {
     var valueLength = evt.target.value.length;
 
-    if (valueLength < TitleLength.min) {
-      titleInput.setCustomValidity('Ещё ' + (TitleLength.min - valueLength) + ' симв.');
-    } else if (valueLength > TitleLength.max) {
-      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TitleLength.max) + ' симв.');
+    if (valueLength < TitleLength.MIN) {
+      titleInput.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
+    } else if (valueLength > TitleLength.MAX) {
+      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TitleLength.MAX) + ' симв.');
     } else {
       titleInput.setCustomValidity('');
     }
-  }
-
-  function onFormReset() {
-    var deafultType = typeSelect.querySelector('option[selected]').value;
-    priceField.placeholder = TypeInfo[deafultType].minPrice;
-    priceField.min = TypeInfo[deafultType].minPrice;
   }
 
   typeSelect.addEventListener('change', onTypeChange);
@@ -202,7 +207,6 @@
   roomsSelect.addEventListener('change', onRoomsChange);
   capacitySelect.addEventListener('change', onCapacityChange);
   titleInput.addEventListener('input', onTitleInput);
-  form.addEventListener('reset', onFormReset);
 
   window.form = {
     setValidateForm: setValidateForm,

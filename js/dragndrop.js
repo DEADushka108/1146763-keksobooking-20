@@ -4,13 +4,13 @@
   var MAP_DISABLE_CLASS = 'map--faded';
 
   var CoordLimit = {
-    x: {
-      min: 0,
-      max: 1200
+    X: {
+      MIN: 0,
+      MAX: 1200
     },
-    y: {
-      min: 130,
-      max: 630
+    Y: {
+      MIN: 130,
+      MAX: 630
     }
   };
 
@@ -60,16 +60,16 @@
       mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
       mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
 
-      if (mainPin.offsetLeft > CoordLimit.x.max - mainPin.offsetWidth / 2) {
-        mainPin.style.left = CoordLimit.x.max - mainPin.offsetWidth / 2 + 'px';
-      } else if (mainPin.offsetLeft < CoordLimit.x.min - mainPin.offsetWidth / 2) {
-        mainPin.style.left = CoordLimit.x.min - mainPin.offsetWidth / 2 + 'px';
+      if (mainPin.offsetLeft > CoordLimit.X.MAX - mainPin.offsetWidth / 2) {
+        mainPin.style.left = CoordLimit.X.MAX - mainPin.offsetWidth / 2 + 'px';
+      } else if (mainPin.offsetLeft < CoordLimit.X.MIN - mainPin.offsetWidth / 2) {
+        mainPin.style.left = CoordLimit.X.MIN - mainPin.offsetWidth / 2 + 'px';
       }
 
-      if (mainPin.offsetTop > CoordLimit.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
-        mainPin.style.top = CoordLimit.y.max - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
-      } else if (mainPin.offsetTop < CoordLimit.y.min - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
-        mainPin.style.top = CoordLimit.y.min - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
+      if (mainPin.offsetTop > CoordLimit.Y.MAX - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
+        mainPin.style.top = CoordLimit.Y.MAX - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
+      } else if (mainPin.offsetTop < CoordLimit.Y.MIN - mainPin.offsetHeight - PIN_TIP_HEIGHT) {
+        mainPin.style.top = CoordLimit.Y.MIN - mainPin.offsetHeight - PIN_TIP_HEIGHT + 'px';
       }
     }
 

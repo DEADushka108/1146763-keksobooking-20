@@ -4,22 +4,22 @@
   var PHOTO_ELMENT_CLASS = 'ad-form__photo';
 
   var PhotoParameter = {
-    width: 70,
-    heigth: 70,
-    alt: 'Фотография жилья'
+    WIDTH: 70,
+    HEIGTH: 70,
+    ALT: 'Фотография жилья'
   };
 
   var createPhoto = window.card.createPhoto;
   var appendElement = window.utils.appendElement;
   var form = window.form.element;
 
-  var avatarImg = form.querySelector('.ad-form__field input[type=file]');
-  var photoImg = form.querySelector('.ad-form__upload input[type=file]');
+  var avatarImage = form.querySelector('.ad-form__field input[type=file]');
+  var photoImage = form.querySelector('.ad-form__upload input[type=file]');
   var previewAvatar = form.querySelector('.ad-form-header__preview img');
   var photoContainer = form.querySelector('.ad-form__photo-container');
   var previewPhoto = photoContainer.querySelector('.ad-form__photo');
   var deafultAvatar = previewAvatar.src;
-  var photoArray = [];
+  var previewElements = [];
 
   function showImage(element, onLoad) {
     var file = element.files[0];
@@ -40,36 +40,36 @@
     }
   }
 
-  function createPhotoElement(src) {
+  function createPreviewElement(src) {
     var element = document.createElement('div');
     element.classList.add(PHOTO_ELMENT_CLASS);
-    var image = createPhoto(src, PhotoParameter.alt, PhotoParameter.width, PhotoParameter.heigth, PHOTO_ELMENT_CLASS);
+    var image = createPhoto(src, PhotoParameter.ALT, PhotoParameter.WIDTH, PhotoParameter.HEIGTH);
     appendElement(image, element);
-    photoArray.push(element);
+    previewElements.push(element);
     photoContainer.insertBefore(element, previewPhoto);
   }
 
-  function resetPhoto() {
-    if (photoArray) {
-      photoArray.forEach(function (photo) {
-        photo.remove();
+  function resetPreview() {
+    if (previewElements) {
+      previewElements.forEach(function (element) {
+        element.remove();
       });
     }
-    photoArray = [];
+    previewElements = [];
     previewAvatar.src = deafultAvatar;
   }
 
-  avatarImg.addEventListener('change', function () {
-    showImage(avatarImg, function (image) {
+  avatarImage.addEventListener('change', function () {
+    showImage(avatarImage, function (image) {
       previewAvatar.src = image;
     });
   });
 
-  photoImg.addEventListener('change', function () {
-    showImage(photoImg, createPhotoElement);
+  photoImage.addEventListener('change', function () {
+    showImage(photoImage, createPreviewElement);
   });
 
   window.preview = {
-    resetPhoto: resetPhoto
+    resetPreview: resetPreview
   };
 })();

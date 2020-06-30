@@ -1,13 +1,17 @@
 'use strict';
 (function () {
   var MAX_ADS = 5;
+
+  var MAP_DISABLED_CLASS = 'map--faded';
+
   var URL = {
-    get: 'https://javascript.pages.academy/keksobooking/data',
-    send: 'https://javascript.pages.academy/keksobooking'
+    GET: 'https://javascript.pages.academy/keksobooking/data',
+    SEND: 'https://javascript.pages.academy/keksobooking'
   };
-  var MAIN_PIN_POSITION = {
-    top: '375px',
-    left: '570px'
+
+  var MainPinPosition = {
+    TOP: '375px',
+    LEFT: '570px'
   };
 
   var getData = window.data.get;
@@ -17,7 +21,7 @@
   var form = window.form.element;
   var isFormActive = window.form.isFormActive;
   var toggleForm = window.form.toggle;
-  var resetPhoto = window.preview.resetPhoto;
+  var resetPreview = window.preview.resetPreview;
   var setValidateForm = window.form.setValidateForm;
   var toggleFilter = window.filter.toggle;
   var renderPins = window.pin.render;
@@ -37,7 +41,7 @@
 
   function onError(message) {
     onErrorSend(message);
-    map.classList.add('map--faded');
+    map.classList.add(MAP_DISABLED_CLASS);
     mainPin.addEventListener('keydown', onKeyPressActivatePage);
     mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
@@ -51,16 +55,18 @@
   }
 
   function setPageDisactive() {
-    map.classList.add('map--faded');
+    map.classList.add(MAP_DISABLED_CLASS);
     toggleForm();
     toggleFilter();
+    mainPin.addEventListener('keydown', onKeyPressActivatePage);
+    mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
   function onMainPinMouseDownActivatePage(evt) {
     if (isMouseLeftButtonPressed(evt)) {
       if (!isMapActive() && !isFormActive()) {
-        getData(URL.get, onSuccess, onError);
-        map.classList.remove('map--faded');
+        getData(URL.GET, onSuccess, onError);
+        map.classList.remove(MAP_DISABLED_CLASS);
         mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
         mainPin.removeEventListener('keydown', onKeyPressActivatePage);
       }
@@ -70,9 +76,9 @@
   function clearPage() {
     removeCard();
     removePins();
-    resetPhoto();
-    mainPin.style.left = MAIN_PIN_POSITION.left;
-    mainPin.style.top = MAIN_PIN_POSITION.top;
+    resetPreview();
+    mainPin.style.left = MainPinPosition.LEFT;
+    mainPin.style.top = MainPinPosition.TOP;
     setPageDisactive();
   }
 
@@ -85,7 +91,7 @@
   function onResetButtonClick(evt) {
     evt.preventDefault();
     form.reset();
-    resetPhoto();
+    resetPreview();
     clearPage();
     window.adverts = [];
     setAddress();
@@ -93,7 +99,7 @@
   }
 
   function onFormSubmit(evt) {
-    sendData(URL.send, new FormData(form), onSuccessSend, onErrorSend);
+    sendData(URL.SEND, new FormData(form), onSuccessSend, onErrorSend);
     form.reset();
     clearPage();
     evt.preventDefault();
@@ -101,9 +107,7 @@
 
   setPageDisactive();
   setAddress();
-  mainPin.addEventListener('keydown', onKeyPressActivatePage);
   mainPin.addEventListener('mousedown', onMouseDownMovePin);
-  mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   form.addEventListener('submit', onFormSubmit);
   resetButton.addEventListener('click', onResetButtonClick);
 })();
