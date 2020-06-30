@@ -31,6 +31,8 @@
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
   var isEnterPressed = window.utils.isEnterPressed;
+  var removeActiveState = window.utils.removeActiveState;
+  var addActiveState = window.utils.addActiveState;
 
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
@@ -40,7 +42,7 @@
 
   function onError(message) {
     onErrorSend(message);
-    map.classList.add(MAP_DISABLED_CLASS);
+    addActiveState(map, MAP_DISABLED_CLASS);
     mainPin.addEventListener('keydown', onKeyPressActivatePage);
     mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
@@ -54,7 +56,7 @@
   }
 
   function setPageDisactive() {
-    map.classList.add(MAP_DISABLED_CLASS);
+    addActiveState(map, MAP_DISABLED_CLASS);
     toggleForm();
     toggleFilter();
     mainPin.addEventListener('keydown', onKeyPressActivatePage);
@@ -64,7 +66,7 @@
   function onMainPinMouseDownActivatePage() {
     if (!isMapActive() && !isFormActive()) {
       getData(URL.GET, onSuccess, onError);
-      map.classList.remove(MAP_DISABLED_CLASS);
+      removeActiveState(map, MAP_DISABLED_CLASS);
       mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
       mainPin.removeEventListener('keydown', onKeyPressActivatePage);
     }

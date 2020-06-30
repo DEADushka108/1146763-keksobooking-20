@@ -23,6 +23,7 @@
 
   var createPhoto = window.card.createPhoto;
   var appendElement = window.utils.appendElement;
+  var addActiveState = window.utils.addActiveState;
   var form = window.form.element;
 
   var avatarImage = form.querySelector(PreviewSelector.AVATAR.IMAGE);
@@ -54,7 +55,7 @@
 
   function createPreviewElement(src) {
     var element = document.createElement('div');
-    element.classList.add(PreviewSelector.PHOTO.ELMENT_CLASS);
+    addActiveState(element, PreviewSelector.PHOTO.ELMENT_CLASS);
     var image = createPhoto(src, PhotoParameter.ALT, PhotoParameter.WIDTH, PhotoParameter.HEIGTH);
     appendElement(image, element);
     previewElements.push(element);

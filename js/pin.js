@@ -11,6 +11,7 @@
   var removeCard = window.card.remove;
   var appendElement = window.utils.appendElement;
   var removeActiveState = window.utils.removeActiveState;
+  var addActiveState = window.utils.addActiveState;
 
   var map = document.querySelector('.map');
   var pinsContainer = map.querySelector('.map__pins');
@@ -62,7 +63,7 @@
       removeActiveState(element, PIN_ACTIVE_CLASS);
     });
 
-    pinElement.classList.add(PIN_ACTIVE_CLASS);
+    addActiveState(pinElement, PIN_ACTIVE_CLASS);
 
     removeCard();
 

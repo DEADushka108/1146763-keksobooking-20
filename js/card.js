@@ -36,6 +36,7 @@
   var appendElement = window.utils.appendElement;
   var isEscPressed = window.utils.isEscPressed;
   var removeActiveState = window.utils.removeActiveState;
+  var addActiveState = window.utils.addActiveState;
 
   function createPhoto(src, alt, width, heigth, className) {
     var photoElement = document.createElement('img');
@@ -44,7 +45,7 @@
     photoElement.setAttribute('width', width);
     photoElement.setAttribute('heigth', heigth);
     if (className) {
-      photoElement.classList.add(className);
+      addActiveState(photoElement, className);
     }
     return photoElement;
   }
@@ -55,7 +56,8 @@
 
   function createFeature(name) {
     var featureElement = document.createElement('li');
-    featureElement.classList.add(CardContent.FEATURE, CardContent.FEATURE + '--' + name);
+    addActiveState(featureElement, CardContent.FEATURE);
+    addActiveState(featureElement, CardContent.FEATURE + '--' + name);
     return featureElement;
   }
 
@@ -67,7 +69,7 @@
         appendElement(cardElement, container);
       });
     } else {
-      container.classList.add(HIDE_CLASS);
+      addActiveState(container, HIDE_CLASS);
     }
   }
 
@@ -79,7 +81,7 @@
         appendElement(cardElement, container);
       });
     } else {
-      container.classList.add(HIDE_CLASS);
+      addActiveState(container, HIDE_CLASS);
     }
   }
 
@@ -88,7 +90,7 @@
     if (adData) {
       cardElement.querySelector(className).textContent = text;
     } else {
-      cardElement.querySelector(className).classList.add(HIDE_CLASS);
+      addActiveState(cardElement.querySelector(className), HIDE_CLASS);
     }
   }
 
@@ -96,7 +98,7 @@
     if (adData) {
       cardElement.querySelector(className).src = adData;
     } else {
-      cardElement.querySelector(className).classList.add(HIDE_CLASS);
+      addActiveState(cardElement.querySelector(className), HIDE_CLASS);
     }
   }
 

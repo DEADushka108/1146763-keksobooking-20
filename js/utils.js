@@ -21,9 +21,14 @@
     element.classList.remove(elementClass);
   }
 
+  function addActiveState(element, elementClass) {
+    element.classList.add(elementClass);
+  }
+
   window.utils = {
     appendElement: appendElement,
     removeActiveState: removeActiveState,
+    addActiveState: addActiveState,
     isEnterPressed: isEnterPressed,
     isEscPressed: isEscPressed
   };
