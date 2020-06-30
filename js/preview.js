@@ -1,7 +1,6 @@
 'use strict';
 (function () {
   var FILE_TYPES = ['gif', 'png', 'jpg', 'jpeg'];
-  var PHOTO_ELMENT_CLASS = 'ad-form__photo';
 
   var PhotoParameter = {
     WIDTH: 70,
@@ -9,15 +8,28 @@
     ALT: 'Фотография жилья'
   };
 
+  var PreviewSelector = {
+    AVATAR: {
+      IMAGE: '.ad-form__field input[type=file]',
+      PREVIEW: '.ad-form-header__preview img'
+    },
+    PHOTO: {
+      IMAGE: '.ad-form__upload input[type=file]',
+      CONTAINER: '.ad-form__photo-container',
+      PREVIEW: '.ad-form__photo',
+      ELMENT_CLASS: 'ad-form__photo'
+    }
+  };
+
   var createPhoto = window.card.createPhoto;
   var appendElement = window.utils.appendElement;
   var form = window.form.element;
 
-  var avatarImage = form.querySelector('.ad-form__field input[type=file]');
-  var photoImage = form.querySelector('.ad-form__upload input[type=file]');
-  var previewAvatar = form.querySelector('.ad-form-header__preview img');
-  var photoContainer = form.querySelector('.ad-form__photo-container');
-  var previewPhoto = photoContainer.querySelector('.ad-form__photo');
+  var avatarImage = form.querySelector(PreviewSelector.AVATAR.IMAGE);
+  var previewAvatar = form.querySelector(PreviewSelector.AVATAR.PREVIEW);
+  var photoImage = form.querySelector(PreviewSelector.PHOTO.IMAGE);
+  var photoContainer = form.querySelector(PreviewSelector.PHOTO.CONTAINER);
+  var previewPhoto = photoContainer.querySelector(PreviewSelector.PHOTO.PREVIEW);
   var deafultAvatar = previewAvatar.src;
   var previewElements = [];
 
@@ -42,7 +54,7 @@
 
   function createPreviewElement(src) {
     var element = document.createElement('div');
-    element.classList.add(PHOTO_ELMENT_CLASS);
+    element.classList.add(PreviewSelector.PHOTO.ELMENT_CLASS);
     var image = createPhoto(src, PhotoParameter.ALT, PhotoParameter.WIDTH, PhotoParameter.HEIGTH);
     appendElement(image, element);
     previewElements.push(element);

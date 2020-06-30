@@ -126,7 +126,7 @@
 
   function onCloseButtonClick() {
     var cardElement = document.querySelector(CardContent.CARD);
-    var pinElement = document.querySelector(PIN_ACTIVE_CLASS);
+    var pinElement = document.querySelector('.map__pin--active');
 
     removeActiveState(pinElement, PIN_ACTIVE_CLASS);
 
