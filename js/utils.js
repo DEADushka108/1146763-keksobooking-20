@@ -1,18 +1,18 @@
 'use strict';
 (function () {
   var KeyCode = {
-    enter: 13,
-    esc: 27
+    ENTER: 13,
+    ESC: 27
   };
 
   var MOUSE_LEFT_BUTTON = 0;
 
   function isEnterPressed(evt) {
-    return evt.keyCode === KeyCode.enter;
+    return evt.keyCode === KeyCode.ENTER;
   }
 
   function isEscPressed(evt) {
-    return evt.keyCode === KeyCode.esc;
+    return evt.keyCode === KeyCode.ESC;
   }
 
   function isMouseLeftButtonPressed(evt) {
