@@ -5,18 +5,12 @@
     ESC: 27
   };
 
-  var MOUSE_LEFT_BUTTON = 0;
-
   function isEnterPressed(evt) {
     return evt.keyCode === KeyCode.ENTER;
   }
 
   function isEscPressed(evt) {
     return evt.keyCode === KeyCode.ESC;
-  }
-
-  function isMouseLeftButtonPressed(evt) {
-    return evt.button === MOUSE_LEFT_BUTTON;
   }
 
   function appendElement(element, fragmentElement) {
@@ -31,7 +25,6 @@
     appendElement: appendElement,
     removeActiveState: removeActiveState,
     isEnterPressed: isEnterPressed,
-    isEscPressed: isEscPressed,
-    isMouseLeftButtonPressed: isMouseLeftButtonPressed
+    isEscPressed: isEscPressed
   };
 })();

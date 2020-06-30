@@ -31,7 +31,6 @@
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
   var isEnterPressed = window.utils.isEnterPressed;
-  var isMouseLeftButtonPressed = window.utils.isMouseLeftButtonPressed;
 
   var map = document.querySelector('.map');
   var mainPin = document.querySelector('.map__pin--main');
@@ -62,14 +61,12 @@
     mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
-  function onMainPinMouseDownActivatePage(evt) {
-    if (isMouseLeftButtonPressed(evt)) {
-      if (!isMapActive() && !isFormActive()) {
-        getData(URL.GET, onSuccess, onError);
-        map.classList.remove(MAP_DISABLED_CLASS);
-        mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
-        mainPin.removeEventListener('keydown', onKeyPressActivatePage);
-      }
+  function onMainPinMouseDownActivatePage() {
+    if (!isMapActive() && !isFormActive()) {
+      getData(URL.GET, onSuccess, onError);
+      map.classList.remove(MAP_DISABLED_CLASS);
+      mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
+      mainPin.removeEventListener('keydown', onKeyPressActivatePage);
     }
   }
 
@@ -95,7 +92,6 @@
     clearPage();
     window.adverts = [];
     setAddress();
-    mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
   function onFormSubmit(evt) {
