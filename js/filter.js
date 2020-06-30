@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var MAX_ADS = 5;
+  var MAX_ADS = window.Constant.MAX_ADS;
   var ANY_VALUE = 'any';
 
   var FilterSelector = {

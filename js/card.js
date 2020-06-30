@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var HIDE_CLASS = 'hidden';
-  var PIN_ACTIVE_CLASS = 'map__pin--active';
+  var PIN_ACTIVE_CLASS = window.Constant.PIN_ACTIVE_CLASS;
 
   var PhotoParameter = {
     WIDTH: 45,

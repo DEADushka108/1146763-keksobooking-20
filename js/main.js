@@ -1,8 +1,8 @@
 'use strict';
 (function () {
-  var MAX_ADS = 5;
+  var MAX_ADS = window.Constant.MAX_ADS;
 
-  var MAP_DISABLED_CLASS = 'map--faded';
+  var MAP_DISABLED_CLASS = window.Constant.MAP_DISABLED_CLASS;
 
   var URL = {
     GET: 'https://javascript.pages.academy/keksobooking/data',
