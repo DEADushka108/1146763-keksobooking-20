@@ -1,36 +1,80 @@
 'use strict';
 (function () {
-  var MinPrices = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 100000
-  };
-
   var TitleLength = {
-    min: 30,
-    max: 100
+    MIN: 30,
+    MAX: 100
   };
 
-  var form = document.querySelector('.ad-form');
-  var fieldsets = form.querySelectorAll('fieldset');
-  var typeSelect = form.querySelector('#type');
-  var priceField = form.querySelector('#price');
-  var checkinSelect = form.querySelector('#timein');
-  var checkoutSelect = form.querySelector('#timeout');
-  var roomsSelect = form.querySelector('#room_number');
-  var capacitySelect = form.querySelector('#capacity');
-  var titleInput = form.querySelector('#title');
+  var FormSelector = {
+    FORM: '.ad-form',
+    DISABLED: 'ad-form--disabled',
+    FIELDSET: 'fieldset',
+    TITLE: '#title',
+    TYPE: '#type',
+    PRICE: '#price',
+    CHECKIN: '#timein',
+    CHECKOUT: '#timeout',
+    ROOM: '#room_number',
+    CAPACITY: '#capacity'
+  };
+
+  var typeInfo = {
+    'bungalo': {
+      minPrice: 0,
+      message: null
+    },
+    'flat': {
+      minPrice: 1000,
+      message: 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей'
+    },
+    'house': {
+      minPrice: 5000,
+      message: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
+    },
+    'palace': {
+      minPrice: 100000,
+      message: 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей'
+    }
+  };
+
+  var roomOption = {
+    firstOption: {
+      rooms: 1,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
+    },
+    secondOption: {
+      rooms: 2,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
+    },
+    thirdOption: {
+      rooms: 3,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
+    },
+    fourthOption: {
+      rooms: 100,
+      message: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
+    }
+  };
+
+  var form = document.querySelector(FormSelector.FORM);
+  var fieldsets = form.querySelectorAll(FormSelector.FIELDSET);
+  var titleInput = form.querySelector(FormSelector.TITLE);
+  var typeSelect = form.querySelector(FormSelector.TYPE);
+  var priceField = form.querySelector(FormSelector.PRICE);
+  var checkinSelect = form.querySelector(FormSelector.CHECKIN);
+  var checkoutSelect = form.querySelector(FormSelector.CHECKOUT);
+  var roomsSelect = form.querySelector(FormSelector.ROOM);
+  var capacitySelect = form.querySelector(FormSelector.CAPACITY);
 
   function toggleForm() {
-    form.classList.toggle('ad-form--disabled');
+    form.classList.toggle(FormSelector.DISABLED);
     fieldsets.forEach(function (fieldset) {
       fieldset.disabled = !fieldset.disabled;
     });
   }
 
   function isFormActive() {
-    return !(form.classList.contains('ad-form--disabled'));
+    return !(form.classList.contains(FormSelector.DISABLED));
   }
 
   function setValidateForm() {
@@ -41,8 +85,8 @@
   }
 
   function onTypeChange(evt) {
-    priceField.placeholder = MinPrices[evt.target.value];
-    priceField.min = MinPrices[evt.target.value];
+    priceField.placeholder = typeInfo[evt.target.value].minPrice;
+    priceField.min = typeInfo[evt.target.value].minPrice;
   }
 
   function onCheckChange(evt) {
@@ -76,27 +120,27 @@
     capacitySelect.setCustomValidity('');
 
     switch (selectedRooms) {
-      case (1): {
+      case (roomOption.firstOption.rooms): {
         if (selectedCapacity !== 1) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя';
+          message = roomOption.firstOption.message;
         }
         break;
       }
-      case (2): {
+      case (roomOption.secondOption.rooms): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей';
+          message = roomOption.secondOption.message;
         }
         break;
       }
-      case (3): {
+      case (roomOption.thirdOption.rooms): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей';
+          message = roomOption.thirdOption.message;
         }
         break;
       }
-      case (100): {
+      case (roomOption.fourthOption.rooms): {
         if (selectedCapacity !== 0) {
-          message = 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей';
+          message = roomOption.fourthOption.message;
         }
         break;
       }
@@ -105,33 +149,30 @@
     capacitySelect.setCustomValidity(message);
   }
 
-  function isCorrectPrice(price) {
-    return price < MinPrices[typeSelect.value] ? true : false;
+  function setMessage(price, message) {
+    if (price < typeInfo[typeSelect.value].minPrice) {
+      message = typeInfo[typeSelect.value].message;
+    }
+    return message;
   }
 
   function validatePrice() {
-    var setPrice = parseInt(priceField.value, 10);
+    var currentPrice = parseInt(priceField.value, 10);
     var message = '';
 
     priceField.setCustomValidity('');
 
     switch (typeSelect.value) {
       case 'flat': {
-        if (isCorrectPrice(setPrice)) {
-          message = 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей';
-        }
+        message = setMessage(currentPrice, message);
         break;
       }
       case 'house': {
-        if (isCorrectPrice(setPrice)) {
-          message = 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей';
-        }
+        message = setMessage(currentPrice, message);
         break;
       }
       case 'palace': {
-        if (isCorrectPrice(setPrice)) {
-          message = 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей';
-        }
+        message = setMessage(currentPrice, message);
         break;
       }
     }
@@ -150,19 +191,13 @@
   function onTitleInput(evt) {
     var valueLength = evt.target.value.length;
 
-    if (valueLength < TitleLength.min) {
-      titleInput.setCustomValidity('Ещё ' + (TitleLength.min - valueLength) + ' симв.');
-    } else if (valueLength > TitleLength.max) {
-      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TitleLength.max) + ' симв.');
+    if (valueLength < TitleLength.MIN) {
+      titleInput.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
+    } else if (valueLength > TitleLength.MAX) {
+      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TitleLength.MAX) + ' симв.');
     } else {
       titleInput.setCustomValidity('');
     }
-  }
-
-  function onFormReset() {
-    var deafultType = typeSelect.querySelector('option[selected]').value;
-    priceField.placeholder = MinPrices[deafultType];
-    priceField.min = MinPrices[deafultType];
   }
 
   typeSelect.addEventListener('change', onTypeChange);
@@ -172,7 +207,6 @@
   roomsSelect.addEventListener('change', onRoomsChange);
   capacitySelect.addEventListener('change', onCapacityChange);
   titleInput.addEventListener('input', onTitleInput);
-  form.addEventListener('reset', onFormReset);
 
   window.form = {
     setValidateForm: setValidateForm,

@@ -9,7 +9,7 @@
   }
 
   function isSuccessStatus(status) {
-    return status === OK_STATUS ? true : false;
+    return status === OK_STATUS;
   }
 
   function getData(url, onSuccess, onError) {

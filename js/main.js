@@ -1,13 +1,17 @@
 'use strict';
 (function () {
-  var MAX_ADS = 5;
+  var MAX_ADS = window.Constant.MAX_ADS;
+
+  var MAP_DISABLED_CLASS = window.Constant.MAP_DISABLED_CLASS;
+
   var URL = {
-    get: 'https://javascript.pages.academy/keksobooking/data',
-    send: 'https://javascript.pages.academy/keksobooking'
+    GET: 'https://javascript.pages.academy/keksobooking/data',
+    SEND: 'https://javascript.pages.academy/keksobooking'
   };
+
   var MainPinPosition = {
-    top: '375px',
-    left: '570px'
+    TOP: '375px',
+    LEFT: '570px'
   };
 
   var getData = window.data.get;
@@ -17,6 +21,7 @@
   var form = window.form.element;
   var isFormActive = window.form.isFormActive;
   var toggleForm = window.form.toggle;
+  var resetPreview = window.preview.resetPreview;
   var setValidateForm = window.form.setValidateForm;
   var toggleFilter = window.filter.toggle;
   var renderPins = window.pin.render;
@@ -25,25 +30,21 @@
   var onMouseDownMovePin = window.dragndrop.movePin;
   var setAddress = window.dragndrop.setAddress;
   var isMapActive = window.dragndrop.isMapActive;
-  var appendElement = window.utils.appendElement;
+  var isEnterPressed = window.utils.isEnterPressed;
+  var removeActiveState = window.utils.removeActiveState;
+  var addActiveState = window.utils.addActiveState;
 
   var map = document.querySelector('.map');
-  var mainContainer = document.querySelector('main');
   var mainPin = document.querySelector('.map__pin--main');
   var resetButton = form.querySelector('.ad-form__reset');
 
   window.adverts = [];
 
   function onError(message) {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    errorElement.querySelector('.error__message').textContent = message;
-    errorElement.querySelector('.error__button').addEventListener('click', function () {
-      errorElement.remove();
-      getData(URL.get, onSuccess, onError);
-    });
-
-    appendElement(errorElement, mainContainer);
+    onErrorSend(message);
+    addActiveState(map, MAP_DISABLED_CLASS);
+    mainPin.addEventListener('keydown', onKeyPressActivatePage);
+    mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
   function onSuccess(data) {
@@ -55,16 +56,18 @@
   }
 
   function setPageDisactive() {
-    map.classList.add('map--faded');
+    addActiveState(map, MAP_DISABLED_CLASS);
     toggleForm();
     toggleFilter();
+    mainPin.addEventListener('keydown', onKeyPressActivatePage);
+    mainPin.addEventListener('mousedown', onMainPinMouseDownActivatePage);
   }
 
-  function onMainPinMouseupActivatePage() {
+  function onMainPinMouseDownActivatePage() {
     if (!isMapActive() && !isFormActive()) {
-      map.classList.remove('map--faded');
-      getData(URL.get, onSuccess, onError);
-      mainPin.removeEventListener('mousedown', onMainPinMouseupActivatePage);
+      getData(URL.GET, onSuccess, onError);
+      removeActiveState(map, MAP_DISABLED_CLASS);
+      mainPin.removeEventListener('mousedown', onMainPinMouseDownActivatePage);
       mainPin.removeEventListener('keydown', onKeyPressActivatePage);
     }
   }
@@ -72,28 +75,29 @@
   function clearPage() {
     removeCard();
     removePins();
-    mainPin.style.left = MainPinPosition.left;
-    mainPin.style.top = MainPinPosition.top;
+    resetPreview();
+    mainPin.style.left = MainPinPosition.LEFT;
+    mainPin.style.top = MainPinPosition.TOP;
     setPageDisactive();
   }
 
   function onKeyPressActivatePage(evt) {
-    if (evt.key === 'Enter') {
-      onMainPinMouseupActivatePage();
+    if (isEnterPressed(evt)) {
+      onMainPinMouseDownActivatePage();
     }
   }
 
   function onResetButtonClick(evt) {
     evt.preventDefault();
     form.reset();
+    resetPreview();
     clearPage();
     window.adverts = [];
     setAddress();
-    mainPin.addEventListener('mousedown', onMainPinMouseupActivatePage);
   }
 
   function onFormSubmit(evt) {
-    sendData(URL.send, new FormData(form), onSuccessSend, onErrorSend);
+    sendData(URL.SEND, new FormData(form), onSuccessSend, onErrorSend);
     form.reset();
     clearPage();
     evt.preventDefault();
@@ -101,9 +105,7 @@
 
   setPageDisactive();
   setAddress();
-  mainPin.addEventListener('keydown', onKeyPressActivatePage);
   mainPin.addEventListener('mousedown', onMouseDownMovePin);
-  mainPin.addEventListener('mouseup', onMainPinMouseupActivatePage);
   form.addEventListener('submit', onFormSubmit);
   resetButton.addEventListener('click', onResetButtonClick);
 })();

@@ -1,13 +1,17 @@
 'use strict';
 (function () {
-  var PinParameters = {
-    width: 50,
-    height: 70
+  var PIN_ACTIVE_CLASS = window.Constant.PIN_ACTIVE_CLASS;
+
+  var PinParameter = {
+    WIDTH: 50,
+    HEIGHT: 70
   };
 
   var createCard = window.card.create;
   var removeCard = window.card.remove;
   var appendElement = window.utils.appendElement;
+  var removeActiveState = window.utils.removeActiveState;
+  var addActiveState = window.utils.addActiveState;
 
   var map = document.querySelector('.map');
   var pinsContainer = map.querySelector('.map__pins');
@@ -17,8 +21,8 @@
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
 
-    pinElement.style.left = data.location.x - PinParameters.width / 2 + 'px';
-    pinElement.style.top = data.location.y - PinParameters.height + 'px';
+    pinElement.style.left = data.location.x - PinParameter.WIDTH / 2 + 'px';
+    pinElement.style.top = data.location.y - PinParameter.HEIGHT + 'px';
     pinElement.querySelector('img').setAttribute('src', data.author.avatar);
     pinElement.querySelector('img').setAttribute('alt', data.offer.title);
 
@@ -33,8 +37,10 @@
     var fragment = document.createDocumentFragment();
 
     array.forEach(function (arr) {
-      var pinElement = createPin(arr);
-      appendElement(pinElement, fragment);
+      if (arr.offer) {
+        var pinElement = createPin(arr);
+        appendElement(pinElement, fragment);
+      }
     });
 
     appendElement(fragment, pinsContainer);
@@ -53,16 +59,15 @@
     var pinElements = map.querySelectorAll('.map__pin');
     var cardElement = createCard(data);
 
-    pinElements.forEach(removePinActiveState);
-    pinElement.classList.add('map__pin--active');
+    pinElements.forEach(function (element) {
+      removeActiveState(element, PIN_ACTIVE_CLASS);
+    });
+
+    addActiveState(pinElement, PIN_ACTIVE_CLASS);
 
     removeCard();
 
     map.insertBefore(cardElement, filtersContainer);
-  }
-
-  function removePinActiveState(pinElement) {
-    pinElement.classList.remove('map__pin--active');
   }
 
   window.pin = {

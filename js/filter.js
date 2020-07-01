@@ -1,9 +1,18 @@
 'use strict';
-
 (function () {
-  var MAX_ADS = 5;
+  var MAX_ADS = window.Constant.MAX_ADS;
   var ANY_VALUE = 'any';
-  var FilterPrices = {
+
+  var FilterSelector = {
+    FILTERS: '.map__filters',
+    TYPE: '#housing-type',
+    PRICE: '#housing-price',
+    ROOMS: '#housing-rooms',
+    GUESTS: '#housing-guests',
+    FEATURES: '#housing-features'
+  };
+
+  var filterPrices = {
     'low': 10000,
     'hight': 50000
   };
@@ -13,12 +22,12 @@
   var removeCard = window.card.remove;
   var debounce = window.debounce;
 
-  var filters = document.querySelector('.map__filters');
-  var typeSelect = filters.querySelector('#housing-type');
-  var priceSelect = filters.querySelector('#housing-price');
-  var roomsSelect = filters.querySelector('#housing-rooms');
-  var guestsSelect = filters.querySelector('#housing-guests');
-  var featuresList = filters.querySelector('#housing-features');
+  var filters = document.querySelector(FilterSelector.FILTERS);
+  var typeSelect = filters.querySelector(FilterSelector.TYPE);
+  var priceSelect = filters.querySelector(FilterSelector.PRICE);
+  var roomsSelect = filters.querySelector(FilterSelector.ROOMS);
+  var guestsSelect = filters.querySelector(FilterSelector.GUESTS);
+  var featuresList = filters.querySelector(FilterSelector.FEATURES);
 
   function toggleFilters() {
     filters.reset();
@@ -32,20 +41,17 @@
   }
 
   function checkPrice(advert) {
-    var isCorrectPrice = true;
     if (priceSelect.value !== ANY_VALUE) {
       switch (priceSelect.value) {
         case 'low':
-          isCorrectPrice = advert.offer.price < FilterPrices.low;
-          break;
+          return advert.offer.price < filterPrices.low;
         case 'middle':
-          isCorrectPrice = advert.offer.price >= FilterPrices.low && advert.offer.price < FilterPrices.hight;
-          break;
+          return advert.offer.price >= filterPrices.low && advert.offer.price < filterPrices.hight;
         case 'high':
-          isCorrectPrice = advert.offer.price >= FilterPrices.hight;
+          return advert.offer.price >= filterPrices.hight;
       }
     }
-    return isCorrectPrice;
+    return true;
   }
 
   function checkFeatures(advert) {
