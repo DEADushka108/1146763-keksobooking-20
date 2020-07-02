@@ -78,6 +78,7 @@
   }
 
   function clearPage() {
+    window.adverts = [];
     removeCard();
     removePins();
     resetPreview();
@@ -94,9 +95,7 @@
   function onResetButtonClick(evt) {
     evt.preventDefault();
     form.reset();
-    resetPreview();
     clearPage();
-    window.adverts = [];
     setAddress();
   }
 
