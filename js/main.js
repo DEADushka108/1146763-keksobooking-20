@@ -9,7 +9,7 @@
     SEND: 'https://javascript.pages.academy/keksobooking'
   };
 
-  var MainPinDefaultPosition = {
+  var MAIN_PIN_DEFAULT_POSITION = {
     TOP: '375px',
     LEFT: '570px'
   };
@@ -41,8 +41,8 @@
   window.adverts = [];
 
   function setMainPinDefaultPosition() {
-    mainPin.style.left = MainPinDefaultPosition.LEFT;
-    mainPin.style.top = MainPinDefaultPosition.TOP;
+    mainPin.style.left = MAIN_PIN_DEFAULT_POSITION.LEFT;
+    mainPin.style.top = MAIN_PIN_DEFAULT_POSITION.TOP;
   }
 
   function onError(message) {

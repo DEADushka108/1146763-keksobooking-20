@@ -1,11 +1,11 @@
 'use strict';
 (function () {
-  var TitleLength = {
+  var TITLE_LENGTH = {
     MIN: 30,
     MAX: 100
   };
 
-  var FormSelector = {
+  var FORM_SELECTOR = {
     FORM: '.ad-form',
     FORM_DISABLED: 'ad-form--disabled',
     FIELDSET: 'fieldset',
@@ -18,7 +18,7 @@
     CAPACITY: '#capacity'
   };
 
-  var TypeInfo = {
+  var TYPE_INFO = {
     'bungalo': {
       MIN_PRICE: 0,
       MESSAGE: null
@@ -37,7 +37,7 @@
     }
   };
 
-  var RoomOption = {
+  var ROOM_OPTION = {
     FIRST_OPTION: {
       ROOMS: 1,
       MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
@@ -56,25 +56,25 @@
     }
   };
 
-  var form = document.querySelector(FormSelector.FORM);
-  var fieldsets = form.querySelectorAll(FormSelector.FIELDSET);
-  var titleInput = form.querySelector(FormSelector.TITLE);
-  var typeSelect = form.querySelector(FormSelector.TYPE);
-  var priceField = form.querySelector(FormSelector.PRICE);
-  var checkinSelect = form.querySelector(FormSelector.CHECKIN);
-  var checkoutSelect = form.querySelector(FormSelector.CHECKOUT);
-  var roomsSelect = form.querySelector(FormSelector.ROOM);
-  var capacitySelect = form.querySelector(FormSelector.CAPACITY);
+  var form = document.querySelector(FORM_SELECTOR.FORM);
+  var fieldsets = form.querySelectorAll(FORM_SELECTOR.FIELDSET);
+  var titleInput = form.querySelector(FORM_SELECTOR.TITLE);
+  var typeSelect = form.querySelector(FORM_SELECTOR.TYPE);
+  var priceField = form.querySelector(FORM_SELECTOR.PRICE);
+  var checkinSelect = form.querySelector(FORM_SELECTOR.CHECKIN);
+  var checkoutSelect = form.querySelector(FORM_SELECTOR.CHECKOUT);
+  var roomsSelect = form.querySelector(FORM_SELECTOR.ROOM);
+  var capacitySelect = form.querySelector(FORM_SELECTOR.CAPACITY);
 
   function toggleForm() {
-    form.classList.toggle(FormSelector.FORM_DISABLED);
+    form.classList.toggle(FORM_SELECTOR.FORM_DISABLED);
     fieldsets.forEach(function (fieldset) {
       fieldset.disabled = !fieldset.disabled;
     });
   }
 
   function isFormActive() {
-    return !(form.classList.contains(FormSelector.FORM_DISABLED));
+    return !(form.classList.contains(FORM_SELECTOR.FORM_DISABLED));
   }
 
   function setValidateForm() {
@@ -85,8 +85,8 @@
   }
 
   function onTypeChange(evt) {
-    priceField.placeholder = TypeInfo[evt.target.value].MIN_PRICE;
-    priceField.min = TypeInfo[evt.target.value].MIN_PRICE;
+    priceField.placeholder = TYPE_INFO[evt.target.value].MIN_PRICE;
+    priceField.min = TYPE_INFO[evt.target.value].MIN_PRICE;
   }
 
   function onCheckChange(evt) {
@@ -120,27 +120,27 @@
     capacitySelect.setCustomValidity('');
 
     switch (selectedRooms) {
-      case (RoomOption.FIRST_OPTION.ROOMS): {
+      case (ROOM_OPTION.FIRST_OPTION.ROOMS): {
         if (selectedCapacity !== 1) {
-          message = RoomOption.FIRST_OPTION.MESSAGE;
+          message = ROOM_OPTION.FIRST_OPTION.MESSAGE;
         }
         break;
       }
-      case (RoomOption.SECOND_OPTION.ROOMS): {
+      case (ROOM_OPTION.SECOND_OPTION.ROOMS): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2) {
-          message = RoomOption.SECOND_OPTION.MESSAGE;
+          message = ROOM_OPTION.SECOND_OPTION.MESSAGE;
         }
         break;
       }
-      case (RoomOption.THIRD_OPTION.ROOMS): {
+      case (ROOM_OPTION.THIRD_OPTION.ROOMS): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
-          message = RoomOption.THIRD_OPTION.MESSAGE;
+          message = ROOM_OPTION.THIRD_OPTION.MESSAGE;
         }
         break;
       }
-      case (RoomOption.FOURTH_OPTION.ROOMS): {
+      case (ROOM_OPTION.FOURTH_OPTION.ROOMS): {
         if (selectedCapacity !== 0) {
-          message = RoomOption.FOURTH_OPTION.MESSAGE;
+          message = ROOM_OPTION.FOURTH_OPTION.MESSAGE;
         }
         break;
       }
@@ -150,8 +150,8 @@
   }
 
   function setMessage(price, message) {
-    if (price < TypeInfo[typeSelect.value].MIN_PRICE) {
-      message = TypeInfo[typeSelect.value].MESSAGE;
+    if (price < TYPE_INFO[typeSelect.value].MIN_PRICE) {
+      message = TYPE_INFO[typeSelect.value].MESSAGE;
     }
     return message;
   }
@@ -191,10 +191,10 @@
   function onTitleInput(evt) {
     var valueLength = evt.target.value.length;
 
-    if (valueLength < TitleLength.MIN) {
-      titleInput.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
-    } else if (valueLength > TitleLength.MAX) {
-      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TitleLength.MAX) + ' симв.');
+    if (valueLength < TITLE_LENGTH.MIN) {
+      titleInput.setCustomValidity('Ещё ' + (TITLE_LENGTH.MIN - valueLength) + ' симв.');
+    } else if (valueLength > TITLE_LENGTH.MAX) {
+      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TITLE_LENGTH.MAX) + ' симв.');
     } else {
       titleInput.setCustomValidity('');
     }

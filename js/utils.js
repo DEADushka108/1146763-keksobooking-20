@@ -1,16 +1,16 @@
 'use strict';
 (function () {
-  var KeyCode = {
+  var KEY_CODE = {
     ENTER: 13,
     ESC: 27
   };
 
   function isEnterPressed(evt) {
-    return evt.keyCode === KeyCode.ENTER;
+    return evt.keyCode === KEY_CODE.ENTER;
   }
 
   function isEscPressed(evt) {
-    return evt.keyCode === KeyCode.ESC;
+    return evt.keyCode === KEY_CODE.ESC;
   }
 
   function appendElement(element, fragmentElement) {
