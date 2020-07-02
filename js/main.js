@@ -82,8 +82,10 @@
     removeCard();
     removePins();
     resetPreview();
+    form.reset();
     setMainPinDefaultPosition();
     setPageDisactive();
+    setAddress();
   }
 
   function onKeyPressActivatePage(evt) {
@@ -94,14 +96,11 @@
 
   function onResetButtonClick(evt) {
     evt.preventDefault();
-    form.reset();
     clearPage();
-    setAddress();
   }
 
   function onFormSubmit(evt) {
     sendData(URL.SEND, new FormData(form), onSuccessSend, onErrorSend);
-    form.reset();
     clearPage();
     evt.preventDefault();
   }
