@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var OK_STATUS = 200;
+  var TIMEOUT_MS = 5000;
 
   function createXhrRequest() {
     var xhr = new XMLHttpRequest();
@@ -30,7 +31,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
     });
 
-    xhr.timeout = 5000;
+    xhr.timeout = TIMEOUT_MS;
 
     xhr.open('GET', url);
     xhr.send();
