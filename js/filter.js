@@ -12,7 +12,7 @@
     FEATURES: '#housing-features'
   };
 
-  var filterPrices = {
+  var FilterPrice = {
     'low': 10000,
     'hight': 50000
   };
@@ -44,11 +44,11 @@
     if (priceSelect.value !== ANY_VALUE) {
       switch (priceSelect.value) {
         case 'low':
-          return advert.offer.price < filterPrices.low;
+          return advert.offer.price < FilterPrice.low;
         case 'middle':
-          return advert.offer.price >= filterPrices.low && advert.offer.price < filterPrices.hight;
+          return advert.offer.price >= FilterPrice.low && advert.offer.price < FilterPrice.hight;
         case 'high':
-          return advert.offer.price >= filterPrices.hight;
+          return advert.offer.price >= FilterPrice.hight;
       }
     }
     return true;

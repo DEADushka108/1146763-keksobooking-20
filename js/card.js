@@ -26,7 +26,7 @@
     DESCRIPTION: '.popup__description',
   };
 
-  var type = {
+  var Type = {
     'palace': 'Дворец',
     'flat': 'Квартира',
     'house': 'Дом',
@@ -112,7 +112,7 @@
     setTextBlock(advert.offer.title, cardElement, CardContent.TITLE);
     setTextBlock(advert.offer.address, cardElement, CardContent.ADDRESS);
     setTextBlock(advert.offer.price, cardElement, CardContent.PRICE, advert.offer.price + ' ₽/ночь');
-    setTextBlock(advert.offer.type, cardElement, CardContent.TYPE, type[advert.offer.type]);
+    setTextBlock(advert.offer.type, cardElement, CardContent.TYPE, Type[advert.offer.type]);
     setTextBlock(advert.offer.rooms && advert.offer.guests, cardElement, CardContent.CAPACITY, advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей');
     setTextBlock(advert.offer.checkin && advert.offer.checkout, cardElement, CardContent.TIME, 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout);
     setTextBlock(advert.offer.description, cardElement, CardContent.DESCRIPTION);

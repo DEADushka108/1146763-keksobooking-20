@@ -9,7 +9,7 @@
     SEND: 'https://javascript.pages.academy/keksobooking'
   };
 
-  var MainPinPosition = {
+  var MainPinDefaultPosition = {
     TOP: '375px',
     LEFT: '570px'
   };
@@ -39,6 +39,11 @@
   var resetButton = form.querySelector('.ad-form__reset');
 
   window.adverts = [];
+
+  function setMainPinDefaultPosition() {
+    mainPin.style.left = MainPinDefaultPosition.LEFT;
+    mainPin.style.top = MainPinDefaultPosition.TOP;
+  }
 
   function onError(message) {
     onErrorSend(message);
@@ -76,8 +81,7 @@
     removeCard();
     removePins();
     resetPreview();
-    mainPin.style.left = MainPinPosition.LEFT;
-    mainPin.style.top = MainPinPosition.TOP;
+    setMainPinDefaultPosition();
     setPageDisactive();
   }
 

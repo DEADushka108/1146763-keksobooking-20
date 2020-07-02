@@ -7,7 +7,7 @@
 
   var FormSelector = {
     FORM: '.ad-form',
-    DISABLED: 'ad-form--disabled',
+    FORM_DISABLED: 'ad-form--disabled',
     FIELDSET: 'fieldset',
     TITLE: '#title',
     TYPE: '#type',
@@ -18,41 +18,41 @@
     CAPACITY: '#capacity'
   };
 
-  var typeInfo = {
+  var TypeInfo = {
     'bungalo': {
-      minPrice: 0,
-      message: null
+      MIN_PRICE: 0,
+      MESSAGE: null
     },
     'flat': {
-      minPrice: 1000,
-      message: 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей'
+      MIN_PRICE: 1000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей'
     },
     'house': {
-      minPrice: 5000,
-      message: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
+      MIN_PRICE: 5000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
     },
     'palace': {
-      minPrice: 100000,
-      message: 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей'
+      MIN_PRICE: 100000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей'
     }
   };
 
-  var roomOption = {
-    firstOption: {
-      rooms: 1,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
+  var RoomOption = {
+    FIRST_OPTION: {
+      ROOMS: 1,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
     },
-    secondOption: {
-      rooms: 2,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
+    SECOND_OPTION: {
+      ROOMS: 2,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
     },
-    thirdOption: {
-      rooms: 3,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
+    THIRD_OPTION: {
+      ROOMS: 3,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
     },
-    fourthOption: {
-      rooms: 100,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
+    FOURTH_OPTION: {
+      ROOMS: 100,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
     }
   };
 
@@ -67,14 +67,14 @@
   var capacitySelect = form.querySelector(FormSelector.CAPACITY);
 
   function toggleForm() {
-    form.classList.toggle(FormSelector.DISABLED);
+    form.classList.toggle(FormSelector.FORM_DISABLED);
     fieldsets.forEach(function (fieldset) {
       fieldset.disabled = !fieldset.disabled;
     });
   }
 
   function isFormActive() {
-    return !(form.classList.contains(FormSelector.DISABLED));
+    return !(form.classList.contains(FormSelector.FORM_DISABLED));
   }
 
   function setValidateForm() {
@@ -85,8 +85,8 @@
   }
 
   function onTypeChange(evt) {
-    priceField.placeholder = typeInfo[evt.target.value].minPrice;
-    priceField.min = typeInfo[evt.target.value].minPrice;
+    priceField.placeholder = TypeInfo[evt.target.value].MIN_PRICE;
+    priceField.min = TypeInfo[evt.target.value].MIN_PRICE;
   }
 
   function onCheckChange(evt) {
@@ -120,27 +120,27 @@
     capacitySelect.setCustomValidity('');
 
     switch (selectedRooms) {
-      case (roomOption.firstOption.rooms): {
+      case (RoomOption.FIRST_OPTION.ROOMS): {
         if (selectedCapacity !== 1) {
-          message = roomOption.firstOption.message;
+          message = RoomOption.FIRST_OPTION.MESSAGE;
         }
         break;
       }
-      case (roomOption.secondOption.rooms): {
+      case (RoomOption.SECOND_OPTION.ROOMS): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2) {
-          message = roomOption.secondOption.message;
+          message = RoomOption.SECOND_OPTION.MESSAGE;
         }
         break;
       }
-      case (roomOption.thirdOption.rooms): {
+      case (RoomOption.THIRD_OPTION.ROOMS): {
         if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
-          message = roomOption.thirdOption.message;
+          message = RoomOption.THIRD_OPTION.MESSAGE;
         }
         break;
       }
-      case (roomOption.fourthOption.rooms): {
+      case (RoomOption.FOURTH_OPTION.ROOMS): {
         if (selectedCapacity !== 0) {
-          message = roomOption.fourthOption.message;
+          message = RoomOption.FOURTH_OPTION.MESSAGE;
         }
         break;
       }
@@ -150,8 +150,8 @@
   }
 
   function setMessage(price, message) {
-    if (price < typeInfo[typeSelect.value].minPrice) {
-      message = typeInfo[typeSelect.value].message;
+    if (price < TypeInfo[typeSelect.value].MIN_PRICE) {
+      message = TypeInfo[typeSelect.value].MESSAGE;
     }
     return message;
   }

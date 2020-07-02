@@ -21,15 +21,16 @@
   function onSuccessSend() {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
-    successElement.querySelector('.success__message').addEventListener('mousedown', onMouseDownSuccessRemove);
     appendElement(successElement, mainContainer);
 
+    document.addEventListener('mousedown', onMouseDownSuccessRemove);
     document.addEventListener('keydown', onEscButtonPress);
   }
 
   function onMouseDownSuccessRemove() {
     var successElement = document.querySelector('.success');
     successElement.remove();
+    document.removeEventListener('mousedown', onMouseDownSuccessRemove);
     document.removeEventListener('keydown', onEscButtonPress);
   }
 
