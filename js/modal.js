@@ -8,9 +8,7 @@
   function onErrorSend(message) {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
-    if (message) {
-      errorElement.querySelector('.error__message').textContent = message;
-    }
+    errorElement.querySelector('.error__message').textContent = message;
     errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonRemove);
     appendElement(errorElement, mainContainer);
 

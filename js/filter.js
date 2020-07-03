@@ -56,7 +56,7 @@
 
   function checkFeatures(advert) {
     var isCorrectFeatures = true;
-    var features = featuresList.querySelectorAll('input:checked');
+    var features = Array.from(featuresList.querySelectorAll('input:checked'));
     features.forEach(function (feature) {
       if (advert.offer.features.indexOf(feature.value) === -1) {
         isCorrectFeatures = false;

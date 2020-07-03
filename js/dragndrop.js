@@ -24,10 +24,10 @@
 
   function setAddress() {
     var pinLocationX = Math.floor(mainPin.offsetLeft + mainPin.offsetWidth / 2);
-    var pinLocationY = Math.floor(mainPin.offsetTop + mainPin.offsetHeight / 2);
+    var pinLocationY = mainPin.offsetTop + mainPin.offsetHeight / 2;
 
     if (isMapActive()) {
-      pinLocationY += Math.floor(mainPin.offsetHeight / 2 + PIN_TIP_HEIGHT);
+      pinLocationY += mainPin.offsetHeight / 2 + PIN_TIP_HEIGHT;
     }
 
     addressField.value = pinLocationX + ', ' + pinLocationY;

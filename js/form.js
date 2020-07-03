@@ -32,8 +32,8 @@
       MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
     },
     'palace': {
-      MIN_PRICE: 100000,
-      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей'
+      MIN_PRICE: 10000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 10000 рублей'
     }
   };
 
@@ -65,7 +65,7 @@
   };
 
   var form = document.querySelector(FORM_SELECTOR.FORM);
-  var fieldsets = form.querySelectorAll(FORM_SELECTOR.FIELDSET);
+  var fieldsets = Array.from(form.querySelectorAll(FORM_SELECTOR.FIELDSET));
   var titleInput = form.querySelector(FORM_SELECTOR.TITLE);
   var typeSelect = form.querySelector(FORM_SELECTOR.TYPE);
   var priceField = form.querySelector(FORM_SELECTOR.PRICE);
@@ -85,13 +85,6 @@
     return !(form.classList.contains(FORM_SELECTOR.FORM_DISABLED));
   }
 
-  function setValidateForm() {
-    if (isFormActive) {
-      validateCapacity();
-      validatePrice();
-    }
-  }
-
   function onTypeChange(evt) {
     priceField.placeholder = TYPE_INFO[evt.target.value].MIN_PRICE;
     priceField.min = TYPE_INFO[evt.target.value].MIN_PRICE;
@@ -108,16 +101,20 @@
   }
 
   function onRoomsChange(evt) {
+    var selectedValue = evt.target.value;
     var selectedIndex = evt.target.selectedIndex;
+    var capacities = Array.from(capacitySelect);
     capacitySelect.options[selectedIndex].selected = true;
-    for (var i = 0; i < capacitySelect.options.length; i++) {
-      capacitySelect.options[i].disabled = true;
-      if (selectedIndex === capacitySelect.options.length - 1) {
-        capacitySelect.options[selectedIndex].disabled = false;
-      } else if (selectedIndex >= i) {
-        capacitySelect.options[i].disabled = false;
+    capacities.forEach(function (option) {
+      option.disabled = true;
+      if (selectedValue > option.index) {
+        option.disabled = false;
       }
-    }
+      if (selectedIndex === capacitySelect.options.length - 1) {
+        option.disabled = true;
+        capacitySelect.options[selectedIndex].disabled = false;
+      }
+    });
   }
 
   function validateCapacity() {
@@ -217,7 +214,6 @@
   titleInput.addEventListener('input', onTitleInput);
 
   window.form = {
-    setValidateForm: setValidateForm,
     isFormActive: isFormActive,
     toggle: toggleForm,
     element: form

@@ -47,7 +47,7 @@
   }
 
   function removePins() {
-    var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var pins = Array.from(map.querySelectorAll('.map__pin:not(.map__pin--main)'));
 
     pins.forEach(function (pin) {
       pin.remove();
@@ -55,8 +55,9 @@
   }
 
   function onPinClick(evt, data) {
+    removeCard();
     var pinElement = evt.currentTarget;
-    var pinElements = map.querySelectorAll('.map__pin');
+    var pinElements = Array.from(map.querySelectorAll('.map__pin'));
     var cardElement = createCard(data);
 
     pinElements.forEach(function (element) {
@@ -64,8 +65,6 @@
     });
 
     addActiveState(pinElement, PIN_ACTIVE_CLASS);
-
-    removeCard();
 
     map.insertBefore(cardElement, filtersContainer);
   }

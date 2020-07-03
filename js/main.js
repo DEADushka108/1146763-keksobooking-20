@@ -22,7 +22,6 @@
   var isFormActive = window.form.isFormActive;
   var toggleForm = window.form.toggle;
   var resetPreview = window.preview.resetPreview;
-  var setValidateForm = window.form.setValidateForm;
   var toggleFilter = window.filter.toggle;
   var renderPins = window.pin.render;
   var removePins = window.pin.remove;
@@ -56,7 +55,6 @@
     window.adverts = data;
     renderPins(window.adverts.slice(0, MAX_ADS));
     toggleForm();
-    setValidateForm();
     toggleFilter();
   }
 

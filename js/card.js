@@ -24,6 +24,7 @@
     PHOTOS: '.popup__photos',
     PHOTO: 'popup__photo',
     DESCRIPTION: '.popup__description',
+    CLOSE_BUTTON: '.popup__close'
   };
 
   var TYPE = {
@@ -119,7 +120,7 @@
     createPhotoElements(photosContainer, advert.offer.photos);
     createFeatureElements(featuresContainer, advert.offer.features);
 
-    cardElement.addEventListener('click', onCloseButtonClick);
+    cardElement.querySelector(CARD_CONTENT.CLOSE_BUTTON).addEventListener('click', onCloseButtonClick);
 
     document.addEventListener('keydown', onEscButtonPress);
 
@@ -127,13 +128,10 @@
   }
 
   function onCloseButtonClick() {
-    var cardElement = document.querySelector(CARD_CONTENT.CARD);
     var pinElement = document.querySelector('.map__pin--active');
 
     removeActiveState(pinElement, PIN_ACTIVE_CLASS);
-
-    cardElement.remove();
-    document.removeEventListener('keydown', onEscButtonPress);
+    removeCard();
   }
 
   function onEscButtonPress(evt) {
@@ -147,6 +145,7 @@
 
     if (cardElement) {
       cardElement.remove();
+      document.removeEventListener('keydown', onEscButtonPress);
     }
   }
 
