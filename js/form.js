@@ -104,7 +104,6 @@
     var selectedValue = evt.target.value;
     var selectedIndex = evt.target.selectedIndex;
     var capacities = Array.from(capacitySelect);
-    capacitySelect.options[selectedIndex].selected = true;
     capacities.forEach(function (option) {
       option.disabled = true;
       if (selectedValue > option.index) {
