@@ -3,7 +3,7 @@
   var MAX_ADS = window.Constant.MAX_ADS;
   var ANY_VALUE = 'any';
 
-  var FilterSelector = {
+  var FILTER_SELECTOR = {
     FILTERS: '.map__filters',
     TYPE: '#housing-type',
     PRICE: '#housing-price',
@@ -12,9 +12,9 @@
     FEATURES: '#housing-features'
   };
 
-  var filterPrices = {
-    'low': 10000,
-    'hight': 50000
+  var FILTER_PRICE = {
+    LOW: 10000,
+    HIGHT: 50000
   };
 
   var renderPins = window.pin.render;
@@ -22,12 +22,12 @@
   var removeCard = window.card.remove;
   var debounce = window.debounce;
 
-  var filters = document.querySelector(FilterSelector.FILTERS);
-  var typeSelect = filters.querySelector(FilterSelector.TYPE);
-  var priceSelect = filters.querySelector(FilterSelector.PRICE);
-  var roomsSelect = filters.querySelector(FilterSelector.ROOMS);
-  var guestsSelect = filters.querySelector(FilterSelector.GUESTS);
-  var featuresList = filters.querySelector(FilterSelector.FEATURES);
+  var filters = document.querySelector(FILTER_SELECTOR.FILTERS);
+  var typeSelect = filters.querySelector(FILTER_SELECTOR.TYPE);
+  var priceSelect = filters.querySelector(FILTER_SELECTOR.PRICE);
+  var roomsSelect = filters.querySelector(FILTER_SELECTOR.ROOMS);
+  var guestsSelect = filters.querySelector(FILTER_SELECTOR.GUESTS);
+  var featuresList = filters.querySelector(FILTER_SELECTOR.FEATURES);
 
   function toggleFilters() {
     filters.reset();
@@ -44,11 +44,11 @@
     if (priceSelect.value !== ANY_VALUE) {
       switch (priceSelect.value) {
         case 'low':
-          return advert.offer.price < filterPrices.low;
+          return advert.offer.price < FILTER_PRICE.LOW;
         case 'middle':
-          return advert.offer.price >= filterPrices.low && advert.offer.price < filterPrices.hight;
+          return advert.offer.price >= FILTER_PRICE.LOW && advert.offer.price < FILTER_PRICE.HIGHT;
         case 'high':
-          return advert.offer.price >= filterPrices.hight;
+          return advert.offer.price >= FILTER_PRICE.HIGHT;
       }
     }
     return true;
@@ -56,7 +56,7 @@
 
   function checkFeatures(advert) {
     var isCorrectFeatures = true;
-    var features = featuresList.querySelectorAll('input:checked');
+    var features = Array.from(featuresList.querySelectorAll('input:checked'));
     features.forEach(function (feature) {
       if (advert.offer.features.indexOf(feature.value) === -1) {
         isCorrectFeatures = false;

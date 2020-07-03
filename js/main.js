@@ -9,7 +9,7 @@
     SEND: 'https://javascript.pages.academy/keksobooking'
   };
 
-  var MainPinPosition = {
+  var MAIN_PIN_DEFAULT_POSITION = {
     TOP: '375px',
     LEFT: '570px'
   };
@@ -22,7 +22,6 @@
   var isFormActive = window.form.isFormActive;
   var toggleForm = window.form.toggle;
   var resetPreview = window.preview.resetPreview;
-  var setValidateForm = window.form.setValidateForm;
   var toggleFilter = window.filter.toggle;
   var renderPins = window.pin.render;
   var removePins = window.pin.remove;
@@ -40,6 +39,11 @@
 
   window.adverts = [];
 
+  function setMainPinDefaultPosition() {
+    mainPin.style.left = MAIN_PIN_DEFAULT_POSITION.LEFT;
+    mainPin.style.top = MAIN_PIN_DEFAULT_POSITION.TOP;
+  }
+
   function onError(message) {
     onErrorSend(message);
     addActiveState(map, MAP_DISABLED_CLASS);
@@ -51,7 +55,6 @@
     window.adverts = data;
     renderPins(window.adverts.slice(0, MAX_ADS));
     toggleForm();
-    setValidateForm();
     toggleFilter();
   }
 
@@ -73,12 +76,14 @@
   }
 
   function clearPage() {
+    window.adverts = [];
     removeCard();
     removePins();
     resetPreview();
-    mainPin.style.left = MainPinPosition.LEFT;
-    mainPin.style.top = MainPinPosition.TOP;
+    form.reset();
+    setMainPinDefaultPosition();
     setPageDisactive();
+    setAddress();
   }
 
   function onKeyPressActivatePage(evt) {
@@ -89,16 +94,11 @@
 
   function onResetButtonClick(evt) {
     evt.preventDefault();
-    form.reset();
-    resetPreview();
     clearPage();
-    window.adverts = [];
-    setAddress();
   }
 
   function onFormSubmit(evt) {
     sendData(URL.SEND, new FormData(form), onSuccessSend, onErrorSend);
-    form.reset();
     clearPage();
     evt.preventDefault();
   }

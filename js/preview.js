@@ -2,13 +2,13 @@
 (function () {
   var FILE_TYPES = ['gif', 'png', 'jpg', 'jpeg'];
 
-  var PhotoParameter = {
+  var PHOTO_PARAMETER = {
     WIDTH: 70,
     HEIGTH: 70,
     ALT: 'Фотография жилья'
   };
 
-  var PreviewSelector = {
+  var PREVIEW_SELECTOR = {
     AVATAR: {
       IMAGE: '.ad-form__field input[type=file]',
       PREVIEW: '.ad-form-header__preview img'
@@ -26,11 +26,11 @@
   var addActiveState = window.utils.addActiveState;
   var form = window.form.element;
 
-  var avatarImage = form.querySelector(PreviewSelector.AVATAR.IMAGE);
-  var previewAvatar = form.querySelector(PreviewSelector.AVATAR.PREVIEW);
-  var photoImage = form.querySelector(PreviewSelector.PHOTO.IMAGE);
-  var photoContainer = form.querySelector(PreviewSelector.PHOTO.CONTAINER);
-  var previewPhoto = photoContainer.querySelector(PreviewSelector.PHOTO.PREVIEW);
+  var avatarImage = form.querySelector(PREVIEW_SELECTOR.AVATAR.IMAGE);
+  var previewAvatar = form.querySelector(PREVIEW_SELECTOR.AVATAR.PREVIEW);
+  var photoImage = form.querySelector(PREVIEW_SELECTOR.PHOTO.IMAGE);
+  var photoContainer = form.querySelector(PREVIEW_SELECTOR.PHOTO.CONTAINER);
+  var previewPhoto = photoContainer.querySelector(PREVIEW_SELECTOR.PHOTO.PREVIEW);
   var deafultAvatar = previewAvatar.src;
   var previewElements = [];
 
@@ -55,8 +55,8 @@
 
   function createPreviewElement(src) {
     var element = document.createElement('div');
-    addActiveState(element, PreviewSelector.PHOTO.ELMENT_CLASS);
-    var image = createPhoto(src, PhotoParameter.ALT, PhotoParameter.WIDTH, PhotoParameter.HEIGTH);
+    addActiveState(element, PREVIEW_SELECTOR.PHOTO.ELMENT_CLASS);
+    var image = createPhoto(src, PHOTO_PARAMETER.ALT, PHOTO_PARAMETER.WIDTH, PHOTO_PARAMETER.HEIGTH);
     appendElement(image, element);
     previewElements.push(element);
     photoContainer.insertBefore(element, previewPhoto);

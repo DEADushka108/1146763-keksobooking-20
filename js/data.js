@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var OK_STATUS = 200;
+  var TIMEOUT_MS = 5000;
 
   function createXhrRequest() {
     var xhr = new XMLHttpRequest();
@@ -12,8 +13,11 @@
     return status === OK_STATUS;
   }
 
-  function getData(url, onSuccess, onError) {
+  function createXhr(onSuccess, onError) {
     var xhr = createXhrRequest();
+
+    xhr.timeout = TIMEOUT_MS;
+
     xhr.addEventListener('load', function () {
       if (isSuccessStatus(xhr.status)) {
         onSuccess(xhr.response);
@@ -27,24 +31,20 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout / 1000 + ' сек.');
+      onError('Запрос не успел выполниться за ' + xhr.timeout + ' мс');
     });
 
-    xhr.timeout = 1000;
+    return xhr;
+  }
 
+  function getData(url, onSuccess, onError) {
+    var xhr = createXhr(onSuccess, onError);
     xhr.open('GET', url);
     xhr.send();
   }
 
   function sendData(url, data, onSuccess, onError) {
-    var xhr = createXhrRequest();
-    xhr.addEventListener('load', function () {
-      if (isSuccessStatus(xhr.status)) {
-        onSuccess(xhr.response);
-      } else {
-        onError();
-      }
-    });
+    var xhr = createXhr(onSuccess, onError);
     xhr.open('POST', url);
     xhr.send(data);
   }

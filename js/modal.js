@@ -8,9 +8,7 @@
   function onErrorSend(message) {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
-    if (message) {
-      errorElement.querySelector('.error__message').textContent = message;
-    }
+    errorElement.querySelector('.error__message').textContent = message;
     errorElement.querySelector('.error__button').addEventListener('click', onErrorButtonRemove);
     appendElement(errorElement, mainContainer);
 
@@ -21,15 +19,16 @@
   function onSuccessSend() {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
-    successElement.querySelector('.success__message').addEventListener('mousedown', onMouseDownSuccessRemove);
     appendElement(successElement, mainContainer);
 
+    document.addEventListener('mousedown', onMouseDownSuccessRemove);
     document.addEventListener('keydown', onEscButtonPress);
   }
 
   function onMouseDownSuccessRemove() {
     var successElement = document.querySelector('.success');
     successElement.remove();
+    document.removeEventListener('mousedown', onMouseDownSuccessRemove);
     document.removeEventListener('keydown', onEscButtonPress);
   }
 

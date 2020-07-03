@@ -1,13 +1,13 @@
 'use strict';
 (function () {
-  var TitleLength = {
+  var TITLE_LENGTH = {
     MIN: 30,
     MAX: 100
   };
 
-  var FormSelector = {
+  var FORM_SELECTOR = {
     FORM: '.ad-form',
-    DISABLED: 'ad-form--disabled',
+    FORM_DISABLED: 'ad-form--disabled',
     FIELDSET: 'fieldset',
     TITLE: '#title',
     TYPE: '#type',
@@ -18,75 +18,76 @@
     CAPACITY: '#capacity'
   };
 
-  var typeInfo = {
+  var TYPE_INFO = {
     'bungalo': {
-      minPrice: 0,
-      message: null
+      MIN_PRICE: 0,
+      MESSAGE: null
     },
     'flat': {
-      minPrice: 1000,
-      message: 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей'
+      MIN_PRICE: 1000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 1000 рублей'
     },
     'house': {
-      minPrice: 5000,
-      message: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
+      MIN_PRICE: 5000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 5000 рублей'
     },
     'palace': {
-      minPrice: 100000,
-      message: 'Для выбранного типа жилья рекомендуемая стоимость от 100000 рублей'
+      MIN_PRICE: 10000,
+      MESSAGE: 'Для выбранного типа жилья рекомендуемая стоимость от 10000 рублей'
     }
   };
 
-  var roomOption = {
-    firstOption: {
-      rooms: 1,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
+  var ROOM_OPTION = {
+    FIRST_OPTION: {
+      ROOMS: 1,
+      MIN_GUESTS: 1,
+      MAX_GUESTS: 1,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
     },
-    secondOption: {
-      rooms: 2,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
+    SECOND_OPTION: {
+      ROOMS: 2,
+      MIN_GUESTS: 1,
+      MAX_GUESTS: 2,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
     },
-    thirdOption: {
-      rooms: 3,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
+    THIRD_OPTION: {
+      ROOMS: 3,
+      MIN_GUESTS: 1,
+      MAX_GUESTS: 3,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
     },
-    fourthOption: {
-      rooms: 100,
-      message: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
+    FOURTH_OPTION: {
+      ROOMS: 100,
+      MIN_GUESTS: 0,
+      MAX_GUESTS: 0,
+      MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
     }
   };
 
-  var form = document.querySelector(FormSelector.FORM);
-  var fieldsets = form.querySelectorAll(FormSelector.FIELDSET);
-  var titleInput = form.querySelector(FormSelector.TITLE);
-  var typeSelect = form.querySelector(FormSelector.TYPE);
-  var priceField = form.querySelector(FormSelector.PRICE);
-  var checkinSelect = form.querySelector(FormSelector.CHECKIN);
-  var checkoutSelect = form.querySelector(FormSelector.CHECKOUT);
-  var roomsSelect = form.querySelector(FormSelector.ROOM);
-  var capacitySelect = form.querySelector(FormSelector.CAPACITY);
+  var form = document.querySelector(FORM_SELECTOR.FORM);
+  var fieldsets = Array.from(form.querySelectorAll(FORM_SELECTOR.FIELDSET));
+  var titleInput = form.querySelector(FORM_SELECTOR.TITLE);
+  var typeSelect = form.querySelector(FORM_SELECTOR.TYPE);
+  var priceField = form.querySelector(FORM_SELECTOR.PRICE);
+  var checkinSelect = form.querySelector(FORM_SELECTOR.CHECKIN);
+  var checkoutSelect = form.querySelector(FORM_SELECTOR.CHECKOUT);
+  var roomsSelect = form.querySelector(FORM_SELECTOR.ROOM);
+  var capacitySelect = form.querySelector(FORM_SELECTOR.CAPACITY);
 
   function toggleForm() {
-    form.classList.toggle(FormSelector.DISABLED);
+    form.classList.toggle(FORM_SELECTOR.FORM_DISABLED);
     fieldsets.forEach(function (fieldset) {
       fieldset.disabled = !fieldset.disabled;
     });
   }
 
   function isFormActive() {
-    return !(form.classList.contains(FormSelector.DISABLED));
-  }
-
-  function setValidateForm() {
-    if (isFormActive) {
-      validateCapacity();
-      validatePrice();
-    }
+    return !(form.classList.contains(FORM_SELECTOR.FORM_DISABLED));
   }
 
   function onTypeChange(evt) {
-    priceField.placeholder = typeInfo[evt.target.value].minPrice;
-    priceField.min = typeInfo[evt.target.value].minPrice;
+    priceField.placeholder = TYPE_INFO[evt.target.value].MIN_PRICE;
+    priceField.min = TYPE_INFO[evt.target.value].MIN_PRICE;
   }
 
   function onCheckChange(evt) {
@@ -100,16 +101,19 @@
   }
 
   function onRoomsChange(evt) {
+    var selectedValue = evt.target.value;
     var selectedIndex = evt.target.selectedIndex;
-    capacitySelect.options[selectedIndex].selected = true;
-    for (var i = 0; i < capacitySelect.options.length; i++) {
-      capacitySelect.options[i].disabled = true;
-      if (selectedIndex === capacitySelect.options.length - 1) {
-        capacitySelect.options[selectedIndex].disabled = false;
-      } else if (selectedIndex >= i) {
-        capacitySelect.options[i].disabled = false;
+    var capacities = Array.from(capacitySelect);
+    capacities.forEach(function (option) {
+      option.disabled = true;
+      if (selectedValue > option.index) {
+        option.disabled = false;
       }
-    }
+      if (selectedIndex === capacitySelect.options.length - 1) {
+        option.disabled = true;
+        capacitySelect.options[selectedIndex].disabled = false;
+      }
+    });
   }
 
   function validateCapacity() {
@@ -120,27 +124,27 @@
     capacitySelect.setCustomValidity('');
 
     switch (selectedRooms) {
-      case (roomOption.firstOption.rooms): {
-        if (selectedCapacity !== 1) {
-          message = roomOption.firstOption.message;
+      case (ROOM_OPTION.FIRST_OPTION.ROOMS): {
+        if (selectedCapacity > ROOM_OPTION.FIRST_OPTION.MAX_GUESTS || selectedCapacity < ROOM_OPTION.FIRST_OPTION.MIN_GUESTS) {
+          message = ROOM_OPTION.FIRST_OPTION.MESSAGE;
         }
         break;
       }
-      case (roomOption.secondOption.rooms): {
-        if (selectedCapacity !== 1 && selectedCapacity !== 2) {
-          message = roomOption.secondOption.message;
+      case (ROOM_OPTION.SECOND_OPTION.ROOMS): {
+        if (selectedCapacity > ROOM_OPTION.SECOND_OPTION.MAX_GUESTS || selectedCapacity < ROOM_OPTION.SECOND_OPTION.MIN_GUESTS) {
+          message = ROOM_OPTION.SECOND_OPTION.MESSAGE;
         }
         break;
       }
-      case (roomOption.thirdOption.rooms): {
-        if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
-          message = roomOption.thirdOption.message;
+      case (ROOM_OPTION.THIRD_OPTION.ROOMS): {
+        if (selectedCapacity > ROOM_OPTION.THIRD_OPTION.MAX_GUESTS || selectedCapacity < ROOM_OPTION.THIRD_OPTION.MIN_GUESTS) {
+          message = ROOM_OPTION.THIRD_OPTION.MESSAGE;
         }
         break;
       }
-      case (roomOption.fourthOption.rooms): {
-        if (selectedCapacity !== 0) {
-          message = roomOption.fourthOption.message;
+      case (ROOM_OPTION.FOURTH_OPTION.ROOMS): {
+        if (selectedCapacity !== ROOM_OPTION.FOURTH_OPTION.MAX_GUESTS) {
+          message = ROOM_OPTION.FOURTH_OPTION.MESSAGE;
         }
         break;
       }
@@ -150,8 +154,8 @@
   }
 
   function setMessage(price, message) {
-    if (price < typeInfo[typeSelect.value].minPrice) {
-      message = typeInfo[typeSelect.value].message;
+    if (price < TYPE_INFO[typeSelect.value].MIN_PRICE) {
+      message = TYPE_INFO[typeSelect.value].MESSAGE;
     }
     return message;
   }
@@ -191,10 +195,10 @@
   function onTitleInput(evt) {
     var valueLength = evt.target.value.length;
 
-    if (valueLength < TitleLength.MIN) {
-      titleInput.setCustomValidity('Ещё ' + (TitleLength.MIN - valueLength) + ' симв.');
-    } else if (valueLength > TitleLength.MAX) {
-      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TitleLength.MAX) + ' симв.');
+    if (valueLength < TITLE_LENGTH.MIN) {
+      titleInput.setCustomValidity('Ещё ' + (TITLE_LENGTH.MIN - valueLength) + ' симв.');
+    } else if (valueLength > TITLE_LENGTH.MAX) {
+      titleInput.setCustomValidity('Ваш заголовок больше рекомендуемого на ' + (valueLength - TITLE_LENGTH.MAX) + ' симв.');
     } else {
       titleInput.setCustomValidity('');
     }
@@ -209,7 +213,6 @@
   titleInput.addEventListener('input', onTitleInput);
 
   window.form = {
-    setValidateForm: setValidateForm,
     isFormActive: isFormActive,
     toggle: toggleForm,
     element: form
