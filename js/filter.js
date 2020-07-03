@@ -60,7 +60,6 @@
     features.forEach(function (feature) {
       if (advert.offer.features.indexOf(feature.value) === -1) {
         isCorrectFeatures = false;
-        return;
       }
     });
     return isCorrectFeatures;
