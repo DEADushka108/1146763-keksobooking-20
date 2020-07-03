@@ -129,19 +129,19 @@
 
     switch (selectedRooms) {
       case (ROOM_OPTION.FIRST_OPTION.ROOMS): {
-        if (selectedCapacity >= ROOM_OPTION.FIRST_OPTION.MAX_GUESTS || selectedCapacity <= ROOM_OPTION.FIRST_OPTION.MIN_GUESTS) {
+        if (selectedCapacity > ROOM_OPTION.FIRST_OPTION.MAX_GUESTS || selectedCapacity < ROOM_OPTION.FIRST_OPTION.MIN_GUESTS) {
           message = ROOM_OPTION.FIRST_OPTION.MESSAGE;
         }
         break;
       }
       case (ROOM_OPTION.SECOND_OPTION.ROOMS): {
-        if (selectedCapacity >= ROOM_OPTION.SECOND_OPTION.MAX_GUESTS || selectedCapacity <= ROOM_OPTION.SECOND_OPTION.MIN_GUESTS) {
+        if (selectedCapacity > ROOM_OPTION.SECOND_OPTION.MAX_GUESTS || selectedCapacity < ROOM_OPTION.SECOND_OPTION.MIN_GUESTS) {
           message = ROOM_OPTION.SECOND_OPTION.MESSAGE;
         }
         break;
       }
       case (ROOM_OPTION.THIRD_OPTION.ROOMS): {
-        if (selectedCapacity >= ROOM_OPTION.THIRD_OPTION.MAX_GUESTS || selectedCapacity <= ROOM_OPTION.THIRD_OPTION.MIN_GUESTS) {
+        if (selectedCapacity > ROOM_OPTION.THIRD_OPTION.MAX_GUESTS || selectedCapacity < ROOM_OPTION.THIRD_OPTION.MIN_GUESTS) {
           message = ROOM_OPTION.THIRD_OPTION.MESSAGE;
         }
         break;
