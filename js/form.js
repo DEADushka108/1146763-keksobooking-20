@@ -40,18 +40,26 @@
   var ROOM_OPTION = {
     FIRST_OPTION: {
       ROOMS: 1,
+      MIN_GUESTS: 1,
+      MAX_GUESTS: 1,
       MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя'
     },
     SECOND_OPTION: {
       ROOMS: 2,
+      MIN_GUESTS: 1,
+      MAX_GUESTS: 2,
       MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей'
     },
     THIRD_OPTION: {
       ROOMS: 3,
+      MIN_GUESTS: 1,
+      MAX_GUESTS: 3,
       MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: для 1 гостя, для 2 гостей, для 3 гостей'
     },
     FOURTH_OPTION: {
       ROOMS: 100,
+      MIN_GUESTS: 0,
+      MAX_GUESTS: 0,
       MESSAGE: 'Для выбранного количества комнат можно выбрать количество гостей: не для гостей'
     }
   };
@@ -121,25 +129,25 @@
 
     switch (selectedRooms) {
       case (ROOM_OPTION.FIRST_OPTION.ROOMS): {
-        if (selectedCapacity !== 1) {
+        if (selectedCapacity >= ROOM_OPTION.FIRST_OPTION.MAX_GUESTS || selectedCapacity <= ROOM_OPTION.FIRST_OPTION.MIN_GUESTS) {
           message = ROOM_OPTION.FIRST_OPTION.MESSAGE;
         }
         break;
       }
       case (ROOM_OPTION.SECOND_OPTION.ROOMS): {
-        if (selectedCapacity !== 1 && selectedCapacity !== 2) {
+        if (selectedCapacity >= ROOM_OPTION.SECOND_OPTION.MAX_GUESTS || selectedCapacity <= ROOM_OPTION.SECOND_OPTION.MIN_GUESTS) {
           message = ROOM_OPTION.SECOND_OPTION.MESSAGE;
         }
         break;
       }
       case (ROOM_OPTION.THIRD_OPTION.ROOMS): {
-        if (selectedCapacity !== 1 && selectedCapacity !== 2 && selectedCapacity !== 3) {
+        if (selectedCapacity >= ROOM_OPTION.THIRD_OPTION.MAX_GUESTS || selectedCapacity <= ROOM_OPTION.THIRD_OPTION.MIN_GUESTS) {
           message = ROOM_OPTION.THIRD_OPTION.MESSAGE;
         }
         break;
       }
       case (ROOM_OPTION.FOURTH_OPTION.ROOMS): {
-        if (selectedCapacity !== 0) {
+        if (selectedCapacity !== ROOM_OPTION.FOURTH_OPTION.MAX_GUESTS) {
           message = ROOM_OPTION.FOURTH_OPTION.MESSAGE;
         }
         break;
