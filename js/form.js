@@ -88,6 +88,7 @@
   function onTypeChange(evt) {
     priceField.placeholder = TYPE_INFO[evt.target.value].MIN_PRICE;
     priceField.min = TYPE_INFO[evt.target.value].MIN_PRICE;
+    validatePrice();
   }
 
   function onCheckChange(evt) {
@@ -111,6 +112,7 @@
         capacitySelect.options[selectedIndex].disabled = false;
       }
     });
+    validateCapacity();
   }
 
   function validateCapacity() {
@@ -181,7 +183,7 @@
     priceField.setCustomValidity(message);
   }
 
-  function onPriceFieldInput() {
+  function onPriceFieldChange() {
     validatePrice();
   }
 
@@ -202,7 +204,7 @@
   }
 
   typeSelect.addEventListener('change', onTypeChange);
-  priceField.addEventListener('input', onPriceFieldInput);
+  priceField.addEventListener('change', onPriceFieldChange);
   checkinSelect.addEventListener('change', onCheckChange);
   checkoutSelect.addEventListener('change', onCheckChange);
   roomsSelect.addEventListener('change', onRoomsChange);
